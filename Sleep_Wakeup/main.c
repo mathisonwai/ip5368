@@ -34,7 +34,7 @@ void io_led_scan(void);
 // add by kwangsi
 volatile unsigned char vFlag_0;
 __sbit bFlag_gSysTick_Change = vFlag_0 : 0;
-__sbit bFlag_Timeslice_320ms = vFlag_0 : 1;
+__sbit bFlag_slice_16ms = vFlag_0 : 1;
 __sbit bFlag_light_load = vFlag_0 : 2;
 __sbit bFlag_typec_in = vFlag_0 : 3;
 __sbit bFlag_qc_ok = vFlag_0 : 4;
@@ -203,8 +203,15 @@ void isr(void) __interrupt(0) // 64us  8MHz 2T
 
         if (!(timerCnt & 0x0F))
         {
-            P_TEST ^= 1;
+            // P_TEST ^= 1;
+            //  P_LED_G ^= 1;  //1.03125ms
             bFlag_gSysTick_Change = 1; // 1ms
+
+            if (!(timerCnt))
+            {
+                // P_LED_G ^= 1; // 16.4ms
+                bFlag_slice_16ms = 1;
+            }
             io_led_scan();
         }
 
@@ -241,7 +248,7 @@ void isr(void) __interrupt(0) // 64us  8MHz 2T
             if (respiration_lamp_timer >= led_lamp)
             {
                 P_LED_R_OFF;
-                P_LED_G_OFF;
+                // P_LED_G_OFF;
                 P_LED_B_OFF; // white led
             }
             else
@@ -252,7 +259,7 @@ void isr(void) __interrupt(0) // 64us  8MHz 2T
                 }
                 else if (0x02 == indicator_light_mode)
                 {
-                    P_LED_G_ON; // green
+                    // P_LED_G_ON; // green
                 }
                 else
                 {
@@ -501,8 +508,9 @@ void io_led_scan(void)
     default:
         break;
     }
-
     indexScan++; //! 1ms 调用一次
+#if 0
+   
     if (0 == forceDispTimer)
     {
         if (displayHundred & SEG_B) // 100
@@ -530,7 +538,7 @@ void io_led_scan(void)
             // }
         }
     }
-
+#endif
     if (indexScan > 17) //
     {
         indexScan = 0;
@@ -1245,10 +1253,6 @@ void app_display_all(void) // 500ms ONE  time
                     displayData--;
                     underVoltageDispTimer = (CONST_TIMER_DISP_UV - 1);
                 }
-                // else
-                // {
-                //     func_mode = MODE_STANDBY;
-                // }
             }
         }
         else if (displayTimer)
@@ -1284,14 +1288,9 @@ void app_display_all(void) // 500ms ONE  time
                 else
                 {
 
-                    if (0 == displayData) // if ((0 == displayData)||(0==bat_level_buf))
+                    if (0 == displayData) 
                     {
                         displayDigit = DISP_ALL_OFF;
-
-                        // if (func_mode)
-                        // {
-                        //     displayTimer = CONST_TIMER_DISP;
-                        // }
                     }
                 }
             }
@@ -1409,50 +1408,41 @@ void main(void)
     P_LED_G_OFF;
     P_LED_B_OUTPUT;
     P_LED_B_OFF;
-    P_TEST_OUTPUT;
-    // bFlag_is_breathing_mode = 0;
-    // enable_breathing_mode();
-    // bFlag_blink = 0;
-    // displayData = 52;
-    // underVoltageDispTimer = 0;
+
     displayTimer = CONST_TIMER_DISP;
 
     while (TRUE)
     {
-        CLRWDT(); // Clear WatchDog
+        CLRWDT();
         if (bFlag_gSysTick_Change)
         {
             bFlag_gSysTick_Change = 0;
-            gpioKeyScan();
-            // P_LED_G ^= 1;
-            // get_p_ext_int_status();
-
-            timer_slice_16ms++;
-            if (0 == (timer_slice_16ms & 0x0F))
+            if (bFlag_slice_16ms)
             {
+
+                bFlag_slice_16ms = 0;
+                timer_slice_16ms++;
+                gpioKeyScan();
                 get_p_ext_int_status();
                 if (bFlag_p_ext_int_is_high)
                 {
                     is_chg_or_dischg();
                 }
-            }
 
-            if (!timer_slice_16ms)
-            {
-                bFlag_blink ^= 1;
-                if (bFlag_p_ext_int_is_high)
+                if (!(timer_slice_16ms & 0x1F))
                 {
-                    get_cap();
+                    bFlag_blink ^= 1;
+                    // P_LED_G ^= 1; //!实测 520ms
+                    if (bFlag_p_ext_int_is_high)
+                    {
+                        get_cap();
+                    }
+                    app_display_all();
                 }
-                // if (bFlag_blink)
-                // {
-                //     ip55xs_read4Bytes(0x2000);
-                // }
-                // else
-                // {
-                //     ip55xs_write4Bytes(0x2000, IP_DATA);
-                // }
-                app_display_all();
+                if (!(timer_slice_16ms & 0x3F))
+                {
+                    P_LED_G ^= 1; //! 实测 520ms
+                }
             }
         }
     }

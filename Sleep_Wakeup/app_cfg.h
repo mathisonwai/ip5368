@@ -130,11 +130,11 @@
 
 //!PIN8
 // RA5 NC
-#define P_TEST                       RA5
-#define P_TEST_CLR               P_TEST = 0
-#define P_TEST_SET               P_TEST = 1
-#define P_TEST_OUTPUT            IOSTA &= (~BIT5)
-#define P_TEST_INPUT             IOSTA |= (BIT5)
+// #define P_TEST                       RA5
+// #define P_TEST_CLR               P_TEST = 0
+// #define P_TEST_SET               P_TEST = 1
+// #define P_TEST_OUTPUT            IOSTA &= (~BIT5)
+// #define P_TEST_INPUT             IOSTA |= (BIT5)
 //------------------------------------------------------------------------------------
 
 //!PIN9

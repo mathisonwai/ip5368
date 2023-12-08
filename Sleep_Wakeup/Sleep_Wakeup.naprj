@@ -1,0 +1,212 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <PropertyGroup Condition="">
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <AssemblyName>Sleep_Wakeup</AssemblyName>
+    <BackupACC>True</BackupACC>
+    <BackupFSR>True</BackupFSR>
+    <BackupPCHBUF>True</BackupPCHBUF>
+    <BackupSTATUS>True</BackupSTATUS>
+    <Bank0Only>False</Bank0Only>
+    <BankselOptLevel>1</BankselOptLevel>
+    <BuildCCompilerVersion>NYC_NY8 1.60 [Build: 230825.00]</BuildCCompilerVersion>
+    <BuildNYASMVersion>NYASM 2.41 [Build: 231121.00]</BuildNYASMVersion>
+    <BuildNYIDEVersion>NYIDE 5.20 [Build: 231130.00]</BuildNYIDEVersion>
+    <CCompilerInstallDir>C:\Nyquest\NYC_NY8</CCompilerInstallDir>
+    <ChipId>NY8A054E</ChipId>
+    <ClientName>NY</ClientName>
+    <CodeOptimization>Enable</CodeOptimization>
+    <Configuration>Debug</Configuration>
+    <EnterDebugMode>True</EnterDebugMode>
+    <FreezeMode>True</FreezeMode>
+    <GenAsmListFile>True</GenAsmListFile>
+    <GenListFile>True</GenListFile>
+    <GenMapFile>True</GenMapFile>
+    <IncludePath></IncludePath>
+    <InitEEPROM>True</InitEEPROM>
+    <InitializeBss>True</InitializeBss>
+    <IsBankselOpt>True</IsBankselOpt>
+    <LibraryFiles></LibraryFiles>
+    <NYASMInstallDir>C:\Nyquest\NYASM\</NYASMInstallDir>
+    <NYIDEInstallDir>C:\Nyquest\NYIDE\</NYIDEInstallDir>
+    <OutputType>bin</OutputType>
+    <Platform>CNy8</Platform>
+    <ProjectGuid>{BA03689E-FC2E-4458-AE66-26B788942073}</ProjectGuid>
+    <ProjectOptionChanged>False</ProjectOptionChanged>
+    <ReservedInterruptRam>2</ReservedInterruptRam>
+    <ReservedRam>8</ReservedRam>
+    <RootNamespace>Sleep_Wakeup</RootNamespace>
+    <TrimSetting>+ 0%</TrimSetting>
+    <WarningMsgCode0>110</WarningMsgCode0>
+    <WarningMsgCode1>110</WarningMsgCode1>
+    <WarningMsgCode10>126</WarningMsgCode10>
+    <WarningMsgCode11>110</WarningMsgCode11>
+    <WarningMsgCode12>59</WarningMsgCode12>
+    <WarningMsgCode13>85</WarningMsgCode13>
+    <WarningMsgCode2>110</WarningMsgCode2>
+    <WarningMsgCode3>126</WarningMsgCode3>
+    <WarningMsgCode4>126</WarningMsgCode4>
+    <WarningMsgCode5>126</WarningMsgCode5>
+    <WarningMsgCode6>110</WarningMsgCode6>
+    <WarningMsgCode7>110</WarningMsgCode7>
+    <WarningMsgCode8>110</WarningMsgCode8>
+    <WarningMsgCode9>110</WarningMsgCode9>
+    <WarningMsgCount>0</WarningMsgCount>
+    <WarningMsgFileName0>D:\wksp_zydeco\pb_ex01_ip5568_ny08a54e\Sleep_Wakeup\main.c</WarningMsgFileName0>
+    <WarningMsgFileName1>D:\wksp_zydeco\pb_ex01_ip5568_ny08a54e\Sleep_Wakeup\main.c</WarningMsgFileName1>
+    <WarningMsgFileName10>D:\wksp_zydeco\pb_ex01_ip5568_ny08a54e\Sleep_Wakeup\main.c</WarningMsgFileName10>
+    <WarningMsgFileName11>D:\wksp_zydeco\pb_ex01_ip5568_ny08a54e\Sleep_Wakeup\main.c</WarningMsgFileName11>
+    <WarningMsgFileName12>D:\wksp_zydeco\pb_ex01_ip5568_ny08a54e\Sleep_Wakeup\main.c</WarningMsgFileName12>
+    <WarningMsgFileName13>D:\wksp_zydeco\pb_ex01_ip5568_ny08a54e\Sleep_Wakeup\main.c</WarningMsgFileName13>
+    <WarningMsgFileName2>D:\wksp_zydeco\pb_ex01_ip5568_ny08a54e\Sleep_Wakeup\main.c</WarningMsgFileName2>
+    <WarningMsgFileName3>D:\wksp_zydeco\pb_ex01_ip5568_ny08a54e\Sleep_Wakeup\main.c</WarningMsgFileName3>
+    <WarningMsgFileName4>D:\wksp_zydeco\pb_ex01_ip5568_ny08a54e\Sleep_Wakeup\main.c</WarningMsgFileName4>
+    <WarningMsgFileName5>D:\wksp_zydeco\pb_ex01_ip5568_ny08a54e\Sleep_Wakeup\main.c</WarningMsgFileName5>
+    <WarningMsgFileName6>D:\wksp_zydeco\pb_ex01_ip5568_ny08a54e\Sleep_Wakeup\main.c</WarningMsgFileName6>
+    <WarningMsgFileName7>D:\wksp_zydeco\pb_ex01_ip5568_ny08a54e\Sleep_Wakeup\main.c</WarningMsgFileName7>
+    <WarningMsgFileName8>D:\wksp_zydeco\pb_ex01_ip5568_ny08a54e\Sleep_Wakeup\main.c</WarningMsgFileName8>
+    <WarningMsgFileName9>D:\wksp_zydeco\pb_ex01_ip5568_ny08a54e\Sleep_Wakeup\main.c</WarningMsgFileName9>
+    <WarningMsgLineNumber0>1035</WarningMsgLineNumber0>
+    <WarningMsgLineNumber1>1055</WarningMsgLineNumber1>
+    <WarningMsgLineNumber10>1108</WarningMsgLineNumber10>
+    <WarningMsgLineNumber11>1100</WarningMsgLineNumber11>
+    <WarningMsgLineNumber12>1118</WarningMsgLineNumber12>
+    <WarningMsgLineNumber13>1108</WarningMsgLineNumber13>
+    <WarningMsgLineNumber2>1076</WarningMsgLineNumber2>
+    <WarningMsgLineNumber3>1041</WarningMsgLineNumber3>
+    <WarningMsgLineNumber4>1061</WarningMsgLineNumber4>
+    <WarningMsgLineNumber5>1082</WarningMsgLineNumber5>
+    <WarningMsgLineNumber6>1033</WarningMsgLineNumber6>
+    <WarningMsgLineNumber7>1053</WarningMsgLineNumber7>
+    <WarningMsgLineNumber8>1074</WarningMsgLineNumber8>
+    <WarningMsgLineNumber9>1102</WarningMsgLineNumber9>
+    <WarningMsgMessage0>main.c:1035: warning 110: conditional flow changed by optimizer.</WarningMsgMessage0>
+    <WarningMsgMessage1>main.c:1055: warning 110: conditional flow changed by optimizer.</WarningMsgMessage1>
+    <WarningMsgMessage10>main.c:1108: warning 126: unreachable code</WarningMsgMessage10>
+    <WarningMsgMessage11>main.c:1100: warning 110: conditional flow changed by optimizer.</WarningMsgMessage11>
+    <WarningMsgMessage12>main.c:1118: warning 59: function 'ip55xs_read4Bytes' must return value</WarningMsgMessage12>
+    <WarningMsgMessage13>main.c:1108: warning 85: in function ip55xs_read4Bytes unreferenced function argument : 'deviceAddr'</WarningMsgMessage13>
+    <WarningMsgMessage2>main.c:1076: warning 110: conditional flow changed by optimizer.</WarningMsgMessage2>
+    <WarningMsgMessage3>main.c:1041: warning 126: unreachable code</WarningMsgMessage3>
+    <WarningMsgMessage4>main.c:1061: warning 126: unreachable code</WarningMsgMessage4>
+    <WarningMsgMessage5>main.c:1082: warning 126: unreachable code</WarningMsgMessage5>
+    <WarningMsgMessage6>main.c:1033: warning 110: conditional flow changed by optimizer.</WarningMsgMessage6>
+    <WarningMsgMessage7>main.c:1053: warning 110: conditional flow changed by optimizer.</WarningMsgMessage7>
+    <WarningMsgMessage8>main.c:1074: warning 110: conditional flow changed by optimizer.</WarningMsgMessage8>
+    <WarningMsgMessage9>main.c:1102: warning 110: conditional flow changed by optimizer.</WarningMsgMessage9>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>True</DebugSymbols>
+    <DebugType>Full</DebugType>
+    <Optimize>False</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>False</DebugSymbols>
+    <DebugType>None</DebugType>
+    <Optimize>True</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="main.c" EntryPoint="false" MetaData="" />
+    <None Include="Sleep_Wakeup.cb" EntryPoint="false" MetaData="" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Client: NY" EntryPoint="false" MetaData="" />
+    <Reference Include="Config Block: Sleep_Wakeup.cb" EntryPoint="false" MetaData="" />
+    <Reference Include="IC Body: NY8A054E" EntryPoint="false" MetaData="" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="app_cfg.h" EntryPoint="false" MetaData="Dependency Files\app_cfg.h" />
+    <ApplicationDefinition Include="app_key.h" EntryPoint="false" MetaData="Dependency Files\app_key.h" />
+    <ApplicationDefinition Include="app_type.h" EntryPoint="false" MetaData="Dependency Files\app_type.h" />
+    <ApplicationDefinition Include="C:\Nyquest\NY8_Example_Code\include\NY8 C\NY8_constant.h" EntryPoint="false" MetaData="Dependency Files\NY8_constant.h" />
+    <ApplicationDefinition Include="C:\Nyquest\NY8_Example_Code\include\NY8 C\ny8a054e_constant.h" EntryPoint="false" MetaData="Dependency Files\ny8a054e_constant.h" />
+    <ApplicationDefinition Include="C:\Nyquest\NYC_NY8\include\ny8.h" EntryPoint="false" MetaData="Dependency Files\ny8.h" />
+    <ApplicationDefinition Include="C:\Nyquest\NYC_NY8\include\ny8a054e.h" EntryPoint="false" MetaData="Dependency Files\ny8a054e.h" />
+    <ApplicationDefinition Include="C:\Nyquest\NYC_NY8\include\ny8common.h" EntryPoint="false" MetaData="Dependency Files\ny8common.h" />
+    <Folder Include="Dependency Files" EntryPoint="false" MetaData="" />
+  </ItemGroup>
+  <Properties>
+    <Array name="ActionFiles" />
+    <Array name="bookmarks" />
+    <Array name="DisassemblyPadColumnWidthInfo">
+      <Element value="AddrWidth|60" />
+      <Element value="CodeWidth|140" />
+      <Element value="ArrowWidth|20" />
+    </Array>
+    <Array name="EEPROMOverwriteData" />
+    <Array name="ExternalResource" />
+    <Array name="files">
+      <Element value="main.c|True" />
+    </Array>
+    <Array name="InstrumentFiles" />
+    <Array name="MelodyDatabaseFiles" />
+    <Array name="MusicFiles" />
+    <Array name="RegisterWindowExpandInfo">
+      <Element value="R-Page|False" />
+      <Element value="INDF@R-Page|False" />
+      <Element value="TMR0@R-Page|False" />
+      <Element value="PCL@R-Page|False" />
+      <Element value="STATUS@R-Page|False" />
+      <Element value="FSR@R-Page|False" />
+      <Element value="PORTA@R-Page|False" />
+      <Element value="PORTB@R-Page|False" />
+      <Element value="PCON@R-Page|False" />
+      <Element value="BWUCON@R-Page|False" />
+      <Element value="PCHBUF@R-Page|False" />
+      <Element value="ABPLCON@R-Page|False" />
+      <Element value="BPHCON@R-Page|False" />
+      <Element value="INTE@R-Page|False" />
+      <Element value="INTF@R-Page|False" />
+      <Element value="AWUCON@R-Page|False" />
+      <Element value="INTEDG@R-Page|False" />
+      <Element value="TMRH@R-Page|False" />
+      <Element value="RFC@R-Page|False" />
+      <Element value="TM34RH@R-Page|False" />
+      <Element value="INTE2@R-Page|False" />
+      <Element value="F-Page|False" />
+      <Element value="IOSTA@F-Page|False" />
+      <Element value="IOSTB@F-Page|False" />
+      <Element value="APHCON@F-Page|False" />
+      <Element value="PS0CV@F-Page|False" />
+      <Element value="BODCON@F-Page|False" />
+      <Element value="CMPCR@F-Page|False" />
+      <Element value="PCON1@F-Page|False" />
+      <Element value="S-Page|False" />
+      <Element value="TMR1@S-Page|False" />
+      <Element value="T1CR1@S-Page|False" />
+      <Element value="T1CR2@S-Page|False" />
+      <Element value="PWM1DUTY@S-Page|False" />
+      <Element value="PS1CV@S-Page|False" />
+      <Element value="BZ1CR@S-Page|False" />
+      <Element value="IRCR@S-Page|False" />
+      <Element value="TBHP@S-Page|False" />
+      <Element value="TBHD@S-Page|False" />
+      <Element value="P2CR1@S-Page|False" />
+      <Element value="PWM2DUTY@S-Page|False" />
+      <Element value="OSCCR@S-Page|False" />
+      <Element value="TMR3@S-Page|False" />
+      <Element value="T3CR1@S-Page|False" />
+      <Element value="T3CR2@S-Page|False" />
+      <Element value="PWM3DUTY@S-Page|False" />
+      <Element value="PS3CV@S-Page|False" />
+      <Element value="P4CR1@S-Page|False" />
+      <Element value="PWM4DUTY@S-Page|False" />
+      <Element value="P5CR1@S-Page|False" />
+      <Element value="PWM5DUTY@S-Page|False" />
+      <Element value="PWM5RH@S-Page|False" />
+    </Array>
+    <Array name="ResourceManager" />
+    <Array name="UpdateableResources" />
+    <Array name="VoiceFiles" />
+    <Array name="VRModule" />
+    <Array name="WatchItemInfo" />
+    <Array name="WatchPadColumnWidthInfo">
+      <Element value="NameWidth|50" />
+      <Element value="AddrWidth|50" />
+      <Element value="ValWidth|50" />
+      <Element value="PageWidth|50" />
+    </Array>
+  </Properties>
+</Project>

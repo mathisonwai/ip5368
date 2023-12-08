@@ -1,0 +1,17 @@
+﻿
+Nyquest IDE Solution File, Format Version 1.00
+# NYIDE 5.20.0.3526
+Project("{608D5F73-6C2E-489F-8ED6-C0FBCCEB586F}") = "Sleep_Wakeup", "Sleep_Wakeup\Sleep_Wakeup.naprj", "{BA03689E-FC2E-4458-AE66-26B788942073}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any = Debug|Any
+		Release|Any = Release|Any
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BA03689E-FC2E-4458-AE66-26B788942073}.Debug|Any.Build.0 = Debug|Any
+		{BA03689E-FC2E-4458-AE66-26B788942073}.Debug|Any.ActiveCfg = Debug|Any
+		{BA03689E-FC2E-4458-AE66-26B788942073}.Release|Any.Build.0 = Release|Any
+		{BA03689E-FC2E-4458-AE66-26B788942073}.Release|Any.ActiveCfg = Release|Any
+	EndGlobalSection
+EndGlobal

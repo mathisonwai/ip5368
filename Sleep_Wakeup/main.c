@@ -43,7 +43,6 @@ __sbit bFlag_bat_vol_shutdown = vFlag_0 : 6;
 __sbit bFlag_blink = vFlag_0 : 7;
 
 volatile unsigned char vFlag_1;
-
 __sbit bFlag_is_breathing_mode = vFlag_1 : 0;
 __sbit bFlag_inc_or_dec = vFlag_1 : 1;
 __sbit indexKey = vFlag_1 : 2;
@@ -52,16 +51,6 @@ __sbit bFlag_power_on = vFlag_1 : 4;
 __sbit bFlag_charger_on = vFlag_1 : 5;    //
 __sbit bFlag_chg_or_dischg = vFlag_1 : 6; //
 // __sbit bFlag_Chargering_From_Empty = vFlag_1 : 7;
-
-// volatile unsigned char vFlag_2;
-// __sbit  = vFlag_2 : 0;
-// __sbit  = vFlag_2 : 1;
-// __sbit  = vFlag_2 : 2;
-// __sbit  = vFlag_2 : 3;
-// __sbit  = vFlag_2 : 4;
-// __sbit  = vFlag_2 : 5;
-// __sbit  = vFlag_2 : 6; //
-// __sbit  = vFlag_2 : 7;
 
 volatile unsigned char moto_work_mode;
 // display
@@ -72,17 +61,10 @@ volatile unsigned char underVoltageDispTimer;
 volatile unsigned char displayTimer;
 volatile unsigned char delaySleepTimer;
 volatile unsigned char displayData;
-// volatile unsigned char dispTimerForce;
-// volatile unsigned char send_0x81cmd_timer;
-// volatile unsigned char ear_bat_volume_left;
-// volatile unsigned char ear_bat_volume_right;
-
 volatile unsigned char bat_level_buf;
-// volatile unsigned char compare_time;
 volatile unsigned char timer_slice_16ms;
-// volatile unsigned char ibinSendCmdTimer;
 volatile unsigned char delaySleepTime;
-volatile unsigned char gpioKeyWaitTimer; // cnt_nkey_click;
+volatile unsigned char gpioKeyWaitTimer;
 GPIO_KEY_STATE gpioKeyState;
 
 #ifdef BREATH_LED_MODE
@@ -90,9 +72,6 @@ volatile unsigned char respiration_lamp_timer;
 #endif
 
 volatile unsigned char IP_DATA[4];
-
-// volatile unsigned char red_led_blink_cnt;
-// volatile unsigned char mMotorWorkMode;
 volatile unsigned char forceDispTimer;
 
 volatile unsigned char displayData;
@@ -100,20 +79,9 @@ volatile unsigned char displayHundred;
 volatile unsigned char displayDecade;
 volatile unsigned char displayDigit;
 volatile unsigned char timer_slice_10ms;
-// volatile unsigned char delaySleepTime;
-// volatile unsigned char gpioKeyWaitTimer;
-// volatile unsigned char gpioKeyState;
-
-// #ifdef BREATH_LED_MODE
-// volatile unsigned char respiration_lamp_timer;
-// #endif
 
 volatile unsigned char gSysTick;
-// volatile unsigned int m68Pressure;
-// volatile unsigned int m68Pressure2;
-// end add
 
-// add by kwangsi
 const unsigned char DispTable[] =
     {
         SEG_A | SEG_B | SEG_C | SEG_D | SEG_E | SEG_F,         // 0
@@ -229,9 +197,6 @@ void isr(void) __interrupt(0) // 64us  8MHz 2T
         TM0IF = 0;
         // TMR0 = 0;//125 138;//0x0F;  34.8us
 
-        // if (SmartChargerWaitTimerLeft)
-        //     SmartChargerWaitTimerLeft--;
-
         // P_LED_G ^= 1;
 
         timerCnt++;
@@ -242,9 +207,7 @@ void isr(void) __interrupt(0) // 64us  8MHz 2T
             bFlag_gSysTick_Change = 1; // 1ms
             io_led_scan();
         }
-#if 1
-        // if(!timerCnt)
-        // {
+
         if (bFlag_is_breathing_mode) // 100us
         {
             respiration_lamp_timer++;
@@ -261,18 +224,6 @@ void isr(void) __interrupt(0) // 64us  8MHz 2T
                         {
                             indicator_light_mode = 0;
                         }
-                        // bFlag_disable_key = 0;
-
-                        // if (0 == dispTimerForce)
-                        // {
-                        //     bFlag_is_breathing_mode = 0;
-                        //     // always_light_timer_shadow = 0;
-                        // }
-                        // else
-                        // {
-                        // dispTimerForce--;
-                        // always_light_timer = always_light_timer_shadow;
-                        // }
                     }
                 }
                 else
@@ -280,11 +231,7 @@ void isr(void) __interrupt(0) // 64us  8MHz 2T
                     if (++respiration_lamp_series >= CONST_RESPIRATION_LAMP_SERIES)
                     {
                         respiration_lamp_series = CONST_RESPIRATION_LAMP_SERIES;
-
-                        // if (!always_light_timer)
-                        // {
                         bFlag_inc_or_dec = 1;
-                        // }
                     }
                 }
 
@@ -299,8 +246,6 @@ void isr(void) __interrupt(0) // 64us  8MHz 2T
             }
             else
             {
-                // P_LED_B_ON;
-
                 if (0x01 == indicator_light_mode)
                 {
                     P_LED_B_ON; // white
@@ -309,14 +254,12 @@ void isr(void) __interrupt(0) // 64us  8MHz 2T
                 {
                     P_LED_G_ON; // green
                 }
-                else // if(0x01 == indicator_light_mode)
+                else
                 {
                     P_LED_R_ON; // orange
                 }
             }
         }
-        // }
-#endif
     }
 
     if (INTFbits.PABIF)
@@ -327,38 +270,18 @@ void isr(void) __interrupt(0) // 64us  8MHz 2T
 #ifdef BREATH_LED_MODE
 void enable_breathing_mode(void)
 {
-
-    // if (0 == bFlag_is_breathing_mode)
-    // {
     bFlag_is_breathing_mode = 1;
     bFlag_inc_or_dec = 0;
     indicator_light_mode = 0;
-    // always_light_timer = always_light_timer_shadow;
-    // }
-    // else
-    // {
-    // always_light_timer = 0;
-    // dispTimerForce = 1;
-    // }
 }
 
 void disable_breathing_mode(void)
 {
-    // bFlag_vin_plug_in = 0;
-    // if (1 == bFlag_is_breathing_mode)
-    {
-        bFlag_is_breathing_mode = 0;
-        indicator_light_mode = 0;
-        // always_light_timer = always_light_timer_shadow;
-        P_LED_R_CLR;
-        P_LED_G_CLR;
-        P_LED_B_CLR;
-    }
-    // else
-    // {
-    // always_light_timer = 0;
-    // dispTimerForce = 1;
-    // }
+    bFlag_is_breathing_mode = 0;
+    indicator_light_mode = 0;
+    P_LED_R_CLR;
+    P_LED_G_CLR;
+    P_LED_B_CLR;
 }
 #endif
 
@@ -383,7 +306,6 @@ void io_led_scan(void)
     switch (indexScan)
     {
     case 0:
-
         if (displayDecade & SEG_A) // 2A
         {
             P_LED_SEG2_SET;
@@ -391,11 +313,9 @@ void io_led_scan(void)
             P_LED_SEG3_CLR;
             P_LED_SEG3_OUTPUT;
         }
-
         break;
 
     case 1:
-
         if (displayDecade & SEG_B) // 2B
         {
             P_LED_SEG3_SET;
@@ -403,11 +323,9 @@ void io_led_scan(void)
             P_LED_SEG2_CLR;
             P_LED_SEG2_OUTPUT;
         }
-
         break;
 
     case 2:
-
         if (displayDecade & SEG_C) // 2C
         {
             P_LED_SEG4_SET;
@@ -415,11 +333,9 @@ void io_led_scan(void)
             P_LED_SEG3_CLR;
             P_LED_SEG3_OUTPUT;
         }
-
         break;
 
     case 3:
-
         if (displayDecade & SEG_D) // 2D
         {
             P_LED_SEG4_SET;
@@ -427,11 +343,9 @@ void io_led_scan(void)
             P_LED_SEG2_CLR;
             P_LED_SEG2_OUTPUT;
         }
-
         break;
 
     case 4:
-
         if (displayDecade & SEG_E) // 2E
         {
             P_LED_SEG5_SET;
@@ -439,11 +353,9 @@ void io_led_scan(void)
             P_LED_SEG2_CLR;
             P_LED_SEG2_OUTPUT;
         }
-
         break;
 
     case 5:
-
         if (displayDecade & SEG_F) // 2F
         {
             P_LED_SEG5_SET;
@@ -451,11 +363,9 @@ void io_led_scan(void)
             P_LED_SEG3_CLR;
             P_LED_SEG3_OUTPUT;
         }
-
         break;
 
     case 6:
-
         if (displayDecade & SEG_G) // 2G
         {
             P_LED_SEG5_SET;
@@ -463,7 +373,6 @@ void io_led_scan(void)
             P_LED_SEG4_CLR;
             P_LED_SEG4_OUTPUT;
         }
-
         break;
 
     case 7:
@@ -474,11 +383,9 @@ void io_led_scan(void)
             P_LED_SEG2_CLR;
             P_LED_SEG2_OUTPUT;
         }
-
         break;
 
     case 8:
-
         if (displayDigit & SEG_B) // 3B
         {
             P_LED_SEG2_SET;
@@ -486,11 +393,9 @@ void io_led_scan(void)
             P_LED_SEG1_CLR;
             P_LED_SEG1_OUTPUT;
         }
-
         break;
 
     case 9:
-
         if (displayDigit & SEG_C) // 3C
         {
             P_LED_SEG1_SET;
@@ -498,11 +403,9 @@ void io_led_scan(void)
             P_LED_SEG3_CLR;
             P_LED_SEG3_OUTPUT;
         }
-
         break;
 
     case 10:
-
         if (displayDigit & SEG_D) // 3D
         {
             P_LED_SEG3_SET;
@@ -510,11 +413,9 @@ void io_led_scan(void)
             P_LED_SEG1_CLR;
             P_LED_SEG1_OUTPUT;
         }
-
         break;
 
     case 11:
-
         if (displayDigit & SEG_E) // 3E
         {
             P_LED_SEG1_SET;
@@ -522,12 +423,9 @@ void io_led_scan(void)
             P_LED_SEG4_CLR;
             P_LED_SEG4_OUTPUT;
         }
-
         break;
 
-        // led_scan_12:
     case 12:
-
         if (displayDigit & SEG_F) // 3F
         {
             P_LED_SEG4_SET;
@@ -535,12 +433,9 @@ void io_led_scan(void)
             P_LED_SEG1_CLR;
             P_LED_SEG1_OUTPUT;
         }
-
         break;
 
-        // led_scan_13:
     case 13:
-
         if (displayDigit & SEG_G) // 3G OK
         {
             P_LED_SEG5_SET;
@@ -548,12 +443,9 @@ void io_led_scan(void)
             P_LED_SEG1_CLR;
             P_LED_SEG1_OUTPUT;
         }
-
         break;
 
-        // led_scan_14:
     case 14:
-
         if (displayHundred & SEG_B) // 1B OK
         {
             P_LED_SEG3_SET;
@@ -561,7 +453,6 @@ void io_led_scan(void)
             P_LED_SEG4_CLR;
             P_LED_SEG4_OUTPUT;
         }
-
         break;
 
     case 15:
@@ -588,7 +479,6 @@ void io_led_scan(void)
         //     break;
 
     case 16:
-
         if (displayHundred & SEG_D) // 1D quick
         {
             P_LED_SEG3_SET;
@@ -596,7 +486,6 @@ void io_led_scan(void)
             P_LED_SEG5_CLR;
             P_LED_SEG5_OUTPUT;
         }
-
         break;
 
     case 17:
@@ -607,30 +496,7 @@ void io_led_scan(void)
             P_LED_SEG5_CLR;
             P_LED_SEG5_OUTPUT;
         }
-
         break;
-
-        // case 19:
-        //     if (displayHundred & SEG_F) // 1F OK
-        //     {
-        //         P_LED_SEG2_SET;
-        //         P_LED_SEG2_OUTPUT;
-        //         P_LED_SEG1_CLR;
-        //         P_LED_SEG1_OUTPUT;
-        //     }
-
-        //     break;
-
-        // case 20:
-        //     if (displayHundred & SEG_G) // 1G OK
-        //     {
-        //         P_LED_SEG3_SET;
-        //         P_LED_SEG3_OUTPUT;
-        //         P_LED_SEG1_CLR;
-        //         P_LED_SEG1_OUTPUT;
-        //     }
-
-        //     break;
 
     default:
         break;
@@ -670,12 +536,6 @@ void io_led_scan(void)
         indexScan = 0;
     }
 }
-
-// void init_gpio(void)
-// {
-//     IOSTA = 0xFF;
-//     IOSTB = 0xFF;
-// }
 
 // bms
 KEY_EVENT gpioKeyScan(void)
@@ -738,57 +598,6 @@ KEY_EVENT gpioKeyScan(void)
             // short key
             //  DBG(("ADC KEY SP!*****\n"));
             gpioKeyState = GPIO_KEY_STATE_IDLE;
-
-            //! test if (bFlag_motor_plugin)
-            // {
-            //     if (0 == bFlag_motor_open)
-            //     {
-            //         motor_open();
-            //     }
-            //     else
-            //     {
-            //         switch (moto_work_mode)
-            //         {
-            //         case 1:
-            //             moto_work_mode = 2;
-            //             P_5V_REF_INPUT;
-            //             P_9V_REF_INPUT;
-            //             P_7V_REF_CLR;
-            //             P_7V_REF_OUTPUT;
-            //             dispTimerForce = (4 + PY);
-            //             disable_breathing_mode();
-            //             break;
-            //         case 2:
-            //             moto_work_mode = 3;
-            //             P_5V_REF_INPUT;
-            //             P_7V_REF_INPUT;
-            //             P_9V_REF_CLR;
-            //             P_9V_REF_OUTPUT;
-            //             dispTimerForce = (6 + PY);
-            //             disable_breathing_mode();
-            //             break;
-            //         case 3:
-
-            //             moto_work_mode = 1;
-            //             P_7V_REF_INPUT;
-            //             P_9V_REF_INPUT;
-            //             P_5V_REF_CLR;
-            //             P_5V_REF_OUTPUT;
-            //             dispTimerForce = (2 + PY);
-            //             disable_breathing_mode();
-            //             break;
-            //         default:
-            //             moto_work_mode = 1;
-            //             P_7V_REF_INPUT;
-            //             P_9V_REF_INPUT;
-            //             P_5V_REF_CLR;
-            //             P_5V_REF_OUTPUT;
-            //             dispTimerForce = (2 + PY);
-            //             disable_breathing_mode();
-            //             break;
-            //         }
-            //     }
-            // }
 
             return MSG_MODE; // GpioKeyEvent[PreKeyIndex][1]; //SPR
         }
@@ -1296,17 +1105,18 @@ void is_chg_or_dischg(void)
             {
                 bFlag_qc_ok = 1;
             }
-            if (0 == bFlag_light_load) //! 非轻载
+            // if (0 == bFlag_light_load) //! 非轻载
+            if ((IP_DATA[2] & BIT3)) // bit19
             {
                 displayTimer = CONST_TIMER_DISP_XSEC; //! 电量==0的时候 闪烁5秒后熄灭,反之一直显示
             }
             else
             { //! 轻载
 
-                if (bFlag_typec_in) //! 解决 typeC to lightning  线在 不需要小电流模式 也不需要轻载关机  但不能解决 C口轻载两分钟会关输出，有协议时 规格书要求C口 只灭灯不关输出
-                {
-                    delaySleepTimer = CNST_TIMER_DLY_SLP; //! C口轻载只要关灯 不需要120秒后关机 也不需要小电流模式
-                }
+                // if (bFlag_typec_in) //! 解决 typeC to lightning  线在 不需要小电流模式 也不需要轻载关机  但不能解决 C口轻载两分钟会关输出，有协议时 规格书要求C口 只灭灯不关输出
+                // {
+                //     delaySleepTimer = CNST_TIMER_DLY_SLP; //! C口轻载只要关灯 不需要120秒后关机 也不需要小电流模式
+                // }
             }
         }
     }

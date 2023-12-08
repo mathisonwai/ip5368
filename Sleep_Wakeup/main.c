@@ -63,7 +63,7 @@ volatile unsigned char delaySleepTimer;
 volatile unsigned char displayData;
 volatile unsigned char bat_level_buf;
 volatile unsigned char timer_slice_16ms;
-volatile unsigned char delaySleepTime;
+// volatile unsigned char delaySleepTimer;
 volatile unsigned char gpioKeyWaitTimer;
 GPIO_KEY_STATE gpioKeyState;
 
@@ -1288,7 +1288,7 @@ void app_display_all(void) // 500ms ONE  time
                 else
                 {
 
-                    if (0 == displayData) 
+                    if (0 == displayData)
                     {
                         displayDigit = DISP_ALL_OFF;
                     }
@@ -1315,29 +1315,29 @@ void app_display_all(void) // 500ms ONE  time
 }
 
 // INT KEY—MCU
-void enterSleepMode(void)
-{
-    AWUCON = 0x00; // Disable PA input change wakeup function
-    // A. Normal mode into Halt mode. While PB1 input change then wakeup and set PB2 outputs low
-    UPDATE_REG(PORTB);  // Read PORTB Data buffer
-    INTF = 0x00;        // Clear all interrupt flags
-    PCONbits.WDTEN = 0; // Disable WDT
-    // choice one way to enter Halt mode
-    SLEEP(); // 1. Execute instruction to enters Halt mode (from Normal mode)
-    // OSCCR = HALT_MODE | FHOSC_SEL     // 2. Set OSCCR register to enters Halt mode (from Normal mode)
-    PCONbits.WDTEN = 1; // Enable WDT
-    PORTBbits.PB3 = 0;  // while wakeup from Halt mode then set PB3 outputs low
-    INTFbits.PABIF = 0; // Clear PABIF(PortB input change interrupt flag bit)
+// void enterSleepMode(void)
+// {
+//     AWUCON = 0x00; // Disable PA input change wakeup function
+//     // A. Normal mode into Halt mode. While PB1 input change then wakeup and set PB2 outputs low
+//     UPDATE_REG(PORTB);  // Read PORTB Data buffer
+//     INTF = 0x00;        // Clear all interrupt flags
+//     PCONbits.WDTEN = 0; // Disable WDT
+//     // choice one way to enter Halt mode
+//     SLEEP(); // 1. Execute instruction to enters Halt mode (from Normal mode)
+//     // OSCCR = HALT_MODE | FHOSC_SEL     // 2. Set OSCCR register to enters Halt mode (from Normal mode)
+//     PCONbits.WDTEN = 1; // Enable WDT
+//     PORTBbits.PB3 = 0;  // while wakeup from Halt mode then set PB3 outputs low
+//     INTFbits.PABIF = 0; // Clear PABIF(PortB input change interrupt flag bit)
 
-    // B. Normal mode into standby mode. While PB1 input change then wakeup and set PB2 outputs high
-    UPDATE_REG(PORTB);                    // Read PORTB Data buffer
-    INTF = 0x00;                          // Clear all interrupt flags
-    PCONbits.WDTEN = 0;                   // Disable WDT
-    OSCCR = C_Standby_Mode | C_FHOSC_Sel; // set OSCCR register to enters Standby mode (from Normal mode)
-    PCONbits.WDTEN = 1;                   // Enable WDT
-    PORTBbits.PB3 = 1;                    // while wakeup from Standby mode then set PB3 outputs high
-    INTFbits.PABIF = 0;                   // Clear PABIF(PortB input change interrupt flag bit)
-}
+//     // B. Normal mode into standby mode. While PB1 input change then wakeup and set PB2 outputs high
+//     UPDATE_REG(PORTB);                    // Read PORTB Data buffer
+//     INTF = 0x00;                          // Clear all interrupt flags
+//     PCONbits.WDTEN = 0;                   // Disable WDT
+//     OSCCR = C_Standby_Mode | C_FHOSC_Sel; // set OSCCR register to enters Standby mode (from Normal mode)
+//     PCONbits.WDTEN = 1;                   // Enable WDT
+//     PORTBbits.PB3 = 1;                    // while wakeup from Standby mode then set PB3 outputs high
+//     INTFbits.PABIF = 0;                   // Clear PABIF(PortB input change interrupt flag bit)
+// }
 // end
 
 void main(void)
@@ -1395,7 +1395,7 @@ void main(void)
     PCON1 = 0x01; //  C_TMR0_En;                          // Enable Timer0
     ENI();
 
-    delaySleepTime = CONST_DELAY_SLEEP_TIME;
+    delaySleepTimer = CONST_DELAY_SLEEP_TIME;
     bFlag_power_on = 1;
 
     // end
@@ -1441,7 +1441,90 @@ void main(void)
                 }
                 if (!(timer_slice_16ms & 0x3F))
                 {
-                    P_LED_G ^= 1; //! 实测 520ms
+                    // P_LED_G ^= 1; //! 实测 1.03sec
+#if 1
+
+                    if ((0 == bFlag_charger_on) && (!P_I2C_INT))
+                    {
+                        if (!delaySleepTimer)
+                        {
+                            // RB2 RA1 --> wake up
+                            DISI();
+                            INTE = 0x00; // Timer0 overflow interrupt enable bit
+                            PCON = 0xC8;
+                            PCON1 = 0x00; // Disable Timer0
+                            // BPHCON = (unsigned char)~C_PB1_PHB;     // Enable PB1 Pull-High resistor
+                            // BWUCON = C_PB1_Wakeup;                    // Enable PB1 input change wakeup function
+                            // IOSTB  = C_PB1_Input;                 // Set PB1 to input mode,others set to output mode
+                            // PORTB  = 0;                               // PORTB data buffer=0x00
+                            // init_gpio();
+                            // APHCON = 0xBF; //(unsigned char)(~C_PA7_PHB);
+                            // BPHCON = 0xEF;
+                            PORTA = 0x00;
+                            PORTB = 0x00;
+                            IOSTA = 0xFF;
+                            IOSTB = 0xFF;
+                            // IOSTA = 0x73; // PA5 Input <-- Set PA5 to open drain output
+                            // IOSTB = 0xF0; // PB5 output PB4 Input
+                            // APHCON = 0xBF; //(unsigned char)(~C_PA7_PHB);
+                            // BPHCON = 0xEF;
+                            // BODCON = 0x00; // PB4 open-drain
+                            // P_LED_R_OFF;
+                            // P_LED_G_OFF;
+                            // P_LED_B_OFF;
+                            AWUCON = (C_PA2_Wakeup); // OK
+                            BWUCON = C_PB0_Wakeup;   // OK
+                            // Initial Interrupt Setting
+                            INTE = C_INT_PABKey; // Enable PortB input change interrupt
+                            INTF = 0;
+                            // ADMD  =   C_ADC_CH_Dis | C_Quarter_VDD ;
+                            // ADMDbits.GCHS = 0;                              // disable global ADC channel    (SFR "ADMD")
+                            //                        bFlag_display_always = 0;
+                            //                        bFlag_display_flash = 0;
+                            //                        bFlag_display_flash_green = 0;
+                            if (!P_KEY)
+                            {
+                                goto skip_sleep;
+                            }
+                            UPDATE_REG(PORTB);
+                            UPDATE_REG(PORTA);
+                            NOP();
+                            SLEEP();
+                            NOP();
+                        skip_sleep:
+                            INTFbits.PABIF = 0;
+                            // INTFbits.PAIF = 0;
+                            // OSCCR = C_Standby_Mode | C_FHOSC_Sel;
+                            //-------------------------------休眠-----------------------------------//
+                            delaySleepTimer = CONST_DELAY_SLEEP_TIME;
+                            // if(!P_KEY_POWER)
+                            //{
+                            // dispTimer = LED_DISP_TIME;
+                            // }
+                            //! FUCK PCON = 0x98;
+                            // CMPCR = C_RBias_High_Dis | C_RBias_Low_Dis | C_CMPFINV_Dis | 0x0A; // initial SFR CMPCR (CMPF_INV=0) measure LVD_L
+                            // PCON = 0xFC;
+                            // PCONbits.LVDEN = 1;
+                            // PCON1 &= 0xC3;
+                            // if (bFlag_bat_low)
+                            // {
+                            //     PCON1 |= C_LVD_3P15V;
+                            // }
+                            // else
+                            // {
+                            //     PCON1 |= C_LVD_3P45V; // Set LVDS[3:0]=0101b (2.8V) , Timer0 disable
+                            // }
+                            PCON1 |= C_TMR0_En;            // Enable Timer0
+                            INTE = (0x01 /*| C_INT_LVD*/); // Timer0 overflow interrupt enable bit
+                            ENI();
+                        }
+                        else
+                        {
+                            delaySleepTimer--;
+                        }
+                    }
+
+#endif
                 }
             }
         }

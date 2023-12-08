@@ -212,6 +212,10 @@ void isr(void) __interrupt(0) // 64us  8MHz 2T
                 // P_LED_G ^= 1; // 16.4ms
                 bFlag_slice_16ms = 1;
             }
+            // io_led_scan();
+        }
+        if (!(timerCnt & 0x07))
+        {
             io_led_scan();
         }
 
@@ -248,7 +252,7 @@ void isr(void) __interrupt(0) // 64us  8MHz 2T
             if (respiration_lamp_timer >= led_lamp)
             {
                 P_LED_R_OFF;
-                // P_LED_G_OFF;
+                P_LED_G_OFF;
                 P_LED_B_OFF; // white led
             }
             else
@@ -259,7 +263,7 @@ void isr(void) __interrupt(0) // 64us  8MHz 2T
                 }
                 else if (0x02 == indicator_light_mode)
                 {
-                    // P_LED_G_ON; // green
+                    P_LED_G_ON; // green
                 }
                 else
                 {
@@ -1101,7 +1105,10 @@ void is_chg_or_dischg(void)
             {
                 counter = 0;
                 bFlag_charger_on = 1; //! 充电
-                enable_breathing_mode();
+                if (displayData < 100)
+                {
+                    enable_breathing_mode();
+                }
                 forceDispTimer = 10;
             }
         }
@@ -1193,6 +1200,8 @@ void app_display_all(void) // 500ms ONE  time
         }
         else // 充满
         {
+            disable_breathing_mode();
+            P_LED_G_ON;
             displayHundred = DispTable[1];
             if (bFlag_qc_ok)
             {

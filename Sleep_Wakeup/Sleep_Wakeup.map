@@ -11,7 +11,7 @@
 Module list:
 ------------
 main.o:
-    .debug_line          offset:0x0        size:0x24d7 (9431)
+    .debug_line          offset:0x0        size:0x2516 (9494)
     .debug_info          offset:0x0        size:0x738 (1848)
     .debug_abbrev        offset:0x0        size:0x2c (44)
     .debug_ranges        offset:0x0        size:0x180 (384)
@@ -68,34 +68,34 @@ main.o:
     uninit               offset:0x2000004d size:0x1
     uninit               offset:0x2000004e size:0x1
     idata                offset:0x2000004f size:0x1
-    code                 offset:0x6d6      size:0xe (14)
-    code                 offset:0x4f2      size:0x51 (81)
+    code                 offset:0x6e2      size:0xe (14)
+    code                 offset:0x4fb      size:0x51 (81)
     .text                offset:0x0        size:0x1
     .text                offset:0x8        size:0x1
-    code                 offset:0x3c7      size:0x6e (110)
-    code                 offset:0x33d      size:0x8a (138)
-    code                 offset:0x15d      size:0x11e (286)
-    code                 offset:0x6f7      size:0x8
-    code                 offset:0x543      size:0x40 (64)
-    code                 offset:0x583      size:0x37 (55)
-    code                 offset:0x435      size:0x69 (105)
-    code                 offset:0x27b      size:0xc2 (194)
-    code                 offset:0x5ba      size:0x33 (51)
-    code                 offset:0x5ed      size:0x2d (45)
-    code                 offset:0x61a      size:0x25 (37)
-    code                 offset:0x63f      size:0x1f (31)
-    code                 offset:0x6e4      size:0xa (10)
-    code                 offset:0x65e      size:0x1d (29)
-    code                 offset:0x6ee      size:0x9
-    code                 offset:0x6af      size:0x14 (20)
-    code                 offset:0x49e      size:0x54 (84)
+    code                 offset:0x3c9      size:0x75 (117)
+    code                 offset:0x33f      size:0x8a (138)
+    code                 offset:0x15d      size:0x120 (288)
+    code                 offset:0x703      size:0x8
+    code                 offset:0x54c      size:0x43 (67)
+    code                 offset:0x58f      size:0x37 (55)
+    code                 offset:0x43e      size:0x69 (105)
+    code                 offset:0x27d      size:0xc2 (194)
+    code                 offset:0x5c6      size:0x33 (51)
+    code                 offset:0x5f9      size:0x2d (45)
+    code                 offset:0x626      size:0x25 (37)
+    code                 offset:0x64b      size:0x1f (31)
+    code                 offset:0x6f0      size:0xa (10)
+    code                 offset:0x66a      size:0x1d (29)
+    code                 offset:0x6fa      size:0x9
+    code                 offset:0x6bb      size:0x14 (20)
+    code                 offset:0x4a7      size:0x54 (84)
     code                 offset:0x13       size:0x14a (330)
-    code                 offset:0x6ff      size:0x8
+    code                 offset:0x70b      size:0x8
     code                 offset:0x1        size:0x7
-    code                 offset:0x707      size:0x5
+    code                 offset:0x713      size:0x5
 
 NY8A054E.a:
-    .debug_line          offset:0x24d7     size:0x345 (837)
+    .debug_line          offset:0x2516     size:0x345 (837)
     .debug_info          offset:0x738      size:0x2d (45)
     .debug_abbrev        offset:0x2c       size:0xf (15)
     .debug_ranges        offset:0x180      size:0x17c (380)
@@ -196,32 +196,32 @@ NY8A054E.a:
     .text                offset:0x2100001f size:0x1
 
 libsdcc_bankram.a:
-    .debug_line          offset:0x281c     size:0x56 (86)
+    .debug_line          offset:0x285b     size:0x56 (86)
     .debug_info          offset:0x765      size:0x3f (63)
     .debug_abbrev        offset:0x3c       size:0x19 (25)
     .debug_ranges        offset:0x2fc      size:0x8
     .debug_aranges       offset:0x30c      size:0x10 (16)
-    code                 offset:0x67b      size:0x1c (28)
-    .debug_line          offset:0x2872     size:0x4f (79)
+    code                 offset:0x687      size:0x1c (28)
+    .debug_line          offset:0x28b1     size:0x4f (79)
     .debug_info          offset:0x7a4      size:0x3f (63)
     .debug_abbrev        offset:0x55       size:0x19 (25)
     .debug_ranges        offset:0x304      size:0x8
     .debug_aranges       offset:0x31c      size:0x10 (16)
-    code                 offset:0x697      size:0x18 (24)
+    code                 offset:0x6a3      size:0x18 (24)
 
 bank2_8b.a:
-    .debug_line          offset:0x28c1     size:0x46 (70)
+    .debug_line          offset:0x2900     size:0x46 (70)
     .debug_info          offset:0x7e3      size:0x2b (43)
     .debug_abbrev        offset:0x6f       size:0xf (15)
     .debug_ranges        offset:0x30c      size:0x8
     .debug_aranges       offset:0x32c      size:0x10 (16)
     startup              offset:0x9        size:0xa (10)
-    .debug_line          offset:0x2908     size:0x4e (78)
+    .debug_line          offset:0x2947     size:0x4e (78)
     .debug_info          offset:0x80f      size:0x2e (46)
     .debug_abbrev        offset:0x7e       size:0xf (15)
     .debug_ranges        offset:0x314      size:0x8
     .debug_aranges       offset:0x33c      size:0x10 (16)
-    code                 offset:0x6c3      size:0x13 (19)
+    code                 offset:0x6cf      size:0x13 (19)
 
 cb_file:
 
@@ -234,31 +234,31 @@ code                 0x1        0x7
 .text                0x8        0x1
 startup              0x9        0xa (10)
 code                 0x13       0x14a (330)
-code                 0x15d      0x11e (286)
-code                 0x27b      0xc2 (194)
-code                 0x33d      0x8a (138)
-code                 0x3c7      0x6e (110)
-code                 0x435      0x69 (105)
-code                 0x49e      0x54 (84)
-code                 0x4f2      0x51 (81)
-code                 0x543      0x40 (64)
-code                 0x583      0x37 (55)
-code                 0x5ba      0x33 (51)
-code                 0x5ed      0x2d (45)
-code                 0x61a      0x25 (37)
-code                 0x63f      0x1f (31)
-code                 0x65e      0x1d (29)
-code                 0x67b      0x1c (28)
-code                 0x697      0x18 (24)
-code                 0x6af      0x14 (20)
-code                 0x6c3      0x13 (19)
-code                 0x6d6      0xe (14)
-code                 0x6e4      0xa (10)
-code                 0x6ee      0x9
-code                 0x6f7      0x8
-code                 0x6ff      0x8
-code                 0x707      0x5
-code (idata)         0x70c      0x1
+code                 0x15d      0x120 (288)
+code                 0x27d      0xc2 (194)
+code                 0x33f      0x8a (138)
+code                 0x3c9      0x75 (117)
+code                 0x43e      0x69 (105)
+code                 0x4a7      0x54 (84)
+code                 0x4fb      0x51 (81)
+code                 0x54c      0x43 (67)
+code                 0x58f      0x37 (55)
+code                 0x5c6      0x33 (51)
+code                 0x5f9      0x2d (45)
+code                 0x626      0x25 (37)
+code                 0x64b      0x1f (31)
+code                 0x66a      0x1d (29)
+code                 0x687      0x1c (28)
+code                 0x6a3      0x18 (24)
+code                 0x6bb      0x14 (20)
+code                 0x6cf      0x13 (19)
+code                 0x6e2      0xe (14)
+code                 0x6f0      0xa (10)
+code                 0x6fa      0x9
+code                 0x703      0x8
+code                 0x70b      0x8
+code                 0x713      0x5
+code (idata)         0x718      0x1
 .text                0x20000000 0x1
 .text                0x20000001 0x1
 .text                0x20000002 0x1
@@ -409,8 +409,8 @@ share_bank           0x2000007f 0x1
 Symbol list by name:
 Name                      Value
 --------------------------------
-___cinit_load__           0x70c (1804)
-___cinit_run__            0x70c (1804)
+___cinit_load__           0x718 (1816)
+___cinit_run__            0x718 (1816)
 ___cinit_size__           0x1
 ___fs2schar               no used
 ___fs2sint                no used
@@ -472,24 +472,24 @@ ___slong2fs               no used
 ___uchar2fs               no used
 ___uint2fs                no used
 ___ulong2fs               no used
-__checksum                0x70d (1805)
-__CHECKSUM_ADDR__         0x70d (1805)
-__codeptrget1             0x6d1 (1745)
+__checksum                0x719 (1817)
+__CHECKSUM_ADDR__         0x719 (1817)
+__codeptrget1             0x6dd (1757)
 __divschar                no used
 __divsint                 no used
 __divslong                no used
 __divsuchar               no used
 __divsuint                no used
 __divsulong               no used
-__divuchar                0x67b (1659)
+__divuchar                0x687 (1671)
 __divuint                 no used
 __divulong                no used
 __divuschar               no used
 __divusint                no used
 __divuslong               no used
-__dly_us                  0x6ff (1791)
-__gptrget                 0x6c3 (1731)
-__gptrget1                0x6c3 (1731)
+__dly_us                  0x70b (1803)
+__gptrget                 0x6cf (1743)
+__gptrget1                0x6cf (1743)
 __gptrget2                no used
 __gptrget3                no used
 __gptrget4                no used
@@ -505,7 +505,7 @@ __modslong                no used
 __modsuchar               no used
 __modsuint                no used
 __modsulong               no used
-__moduchar                0x697 (1687)
+__moduchar                0x6a3 (1699)
 __moduint                 no used
 __modulong                no used
 __moduschar               no used
@@ -557,23 +557,23 @@ _displayDecade            0x20000031
 _displayDigit             0x20000032
 _displayHundred           0x20000030
 _displayTimer             0x20000028
-_DispTable                0x6d6 (1750)
-_enable_breathing_mode    0x707 (1799)
+_DispTable                0x6e2 (1762)
+_enable_breathing_mode    0x713 (1811)
 _forceDispTimer           0x2000002e
 _FSR                      0x20000004
-_get_cap                  0x6f7 (1783)
-_get_p_ext_int_status     0x583 (1411)
-_gpioKeyScan              0x49e (1182)
+_get_cap                  0x703 (1795)
+_get_p_ext_int_status     0x58f (1423)
+_gpioKeyScan              0x4a7 (1191)
 _gpioKeyState             0x2000002c
 _gpioKeyWaitTimer         0x2000002b
 _gSysTick                 no used
-_i2c_chk_ack              0x65e (1630)
-_i2c_readByte             0x61a (1562)
+_i2c_chk_ack              0x66a (1642)
+_i2c_readByte             0x626 (1574)
 _i2c_send_ack             no used
-_i2c_send_nack            0x6e4 (1764)
-_i2c_start                0x6af (1711)
-_i2c_stop                 0x6ee (1774)
-_i2c_writeByte            0x63f (1599)
+_i2c_send_nack            0x6f0 (1776)
+_i2c_start                0x6bb (1723)
+_i2c_stop                 0x6fa (1786)
+_i2c_writeByte            0x64b (1611)
 _INDF                     0x20000000
 _indicator_light_mode     0x20000026
 _init_ip53xs              no used
@@ -589,14 +589,14 @@ _io_led_scan              0x13 (19)
 _IOSTA                    0x20800005
 _IOSTB                    0x20800006
 _IP_DATA                  0x20000020
-_ip53xs_readByte          0x5ba (1466)
-_ip53xs_writeByte         0x5ed (1517)
-_ip55xs_read4Bytes        0x435 (1077)
-_ip55xs_write4Bytes       0x27b (635)
+_ip53xs_readByte          0x5c6 (1478)
+_ip53xs_writeByte         0x5f9 (1529)
+_ip55xs_read4Bytes        0x43e (1086)
+_ip55xs_write4Bytes       0x27d (637)
 _IRCR                     0x21000006
-_is_chg_or_dischg         0x543 (1347)
-_isr                      0x3c7 (967)
-_main                     0x33d (829)
+_is_chg_or_dischg         0x54c (1356)
+_isr                      0x3c9 (969)
+_main                     0x33f (831)
 _moto_work_mode           no used
 _multi_16b                no used
 _OSCCR                    0x2100000f
@@ -622,7 +622,7 @@ _PWM4DUTY                 0x21000018
 _PWM5DUTY                 0x2100001d
 _PWM5RH                   0x2100001f
 _read_14bit_rom           no used
-_RESPIRATION_LAMP_TABLE   0x4f2 (1266)
+_RESPIRATION_LAMP_TABLE   0x4fb (1275)
 _respiration_lamp_timer   0x2000002d
 _RFC                      0x2000001b
 _RFCbits                  0x2000001b

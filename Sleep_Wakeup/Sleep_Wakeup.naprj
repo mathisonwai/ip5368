@@ -129,9 +129,7 @@
   </ItemGroup>
   <Properties>
     <Array name="ActionFiles" />
-    <Array name="bookmarks">
-      <Element value="Breakpoint|main.c|1344|5|Enabled|||||||||" />
-    </Array>
+    <Array name="bookmarks" />
     <Array name="DisassemblyPadColumnWidthInfo">
       <Element value="AddrWidth|60" />
       <Element value="CodeWidth|140" />

@@ -550,9 +550,65 @@ void io_led_scan(void)
 }
 
 // bms
+// NOP()
+void io_uart_tx(unsigned char sendByte)
+{
+
+    unsigned char bCount;
+
+    bCount = 8;
+    DISI(); // GIE = 0;
+    P_IO_UART_TX_OUTPUT;
+    P_IO_UART_TX_CLR; // 输出高
+    NOP();
+    NOP();
+    NOP();
+    NOP();
+    NOP();
+    NOP();
+    NOP();
+    NOP();
+    NOP();
+
+    while (bCount)
+    {
+        if (sendByte & 0x01)
+        {
+            P_IO_UART_TX_SET; // 输出高
+            NOP();
+            NOP();
+        }
+        else
+        {
+            P_IO_UART_TX_CLR; // 输出低
+            NOP();
+            NOP();
+            NOP();
+            NOP();
+            NOP();
+        }
+        bCount--;
+        sendByte >>= 1;
+    }
+
+    NOP();
+    P_IO_UART_TX_SET; // 输出高
+    NOP();
+    NOP();
+    NOP();
+    NOP();
+    NOP();
+    NOP();
+    NOP();
+    NOP();
+    NOP();
+    ENI(); // GIE = 1;
+}
+
 KEY_EVENT gpioKeyScan(void)
 {
     P_KEY_INPUT;
+    _dly_us(5);
     if (gpioKeyWaitTimer)
     {
         gpioKeyWaitTimer--;
@@ -580,12 +636,14 @@ KEY_EVENT gpioKeyScan(void)
         // timer_set(&gpioKeyWaitTimer, GPIO_KEY_JTTER_TIME);
         gpioKeyWaitTimer = GPIO_KEY_JTTER_TIME; // gSysTick_current;
         // DBG(("GOTO JITTER!\n"));
+        // io_uart_tx(0x71);
         gpioKeyState = GPIO_KEY_STATE_JITTER;
 
     case GPIO_KEY_STATE_JITTER:
         if (indexKey) // if(PreKeyIndex != indexKey)
         {
             // DBG(("GOTO IDLE Because jitter!\n"));
+            // io_uart_tx(0x72);
             gpioKeyState = GPIO_KEY_STATE_IDLE;
         }
         // else if(timer_expired(&gpioKeyWaitTimer))
@@ -595,6 +653,7 @@ KEY_EVENT gpioKeyScan(void)
             // P_KEY_OUT = 0;
             // UARTSendDataByte(0xA1);
             // timer_set(&gpioKeyWaitTimer, GPIO_KEY_CP_TIME);
+            // io_uart_tx(0x73);
             gpioKeyWaitTimer = GPIO_KEY_CP_TIME; // gSysTick_current;
             gpioKeyState = GPIO_KEY_STATE_PRESS_DOWN;
             P_KEY_IPS_CLR;
@@ -609,6 +668,7 @@ KEY_EVENT gpioKeyScan(void)
         {
             // short key
             //  DBG(("ADC KEY SP!*****\n"));
+            // io_uart_tx(0x74);
             gpioKeyState = GPIO_KEY_STATE_IDLE;
 
             return MSG_MODE; // GpioKeyEvent[PreKeyIndex][1]; //SPR
@@ -618,7 +678,7 @@ KEY_EVENT gpioKeyScan(void)
         {
 
             // long key press
-
+            // io_uart_tx(0x75);
             // DBG(("ADC KEY CP!********\n"));
             // timer_set(&gpioKeyWaitTimer, GPIO_KEY_CPH_TIME);
             // tune up gpioKeyWaitTimer = GPIO_KEY_CPH_TIME;//gSysTick_current;
@@ -648,6 +708,7 @@ KEY_EVENT gpioKeyScan(void)
             // DBG(("ADC KEY CPR!*************\n"));
             // UARTSendDataByte(0xA4);
             // P_LED_R_OFF;
+            // io_uart_tx(0x76);
             gpioKeyState = GPIO_KEY_STATE_IDLE;
             // return MSG_NONE;//GpioKeyEvent[PreKeyIndex][4]; //CPR
         }
@@ -999,7 +1060,9 @@ void get_p_ext_int_status(void)
             {
                 counter = 0;
                 bFlag_p_ext_int_is_high = 0;
-
+                bFlag_charger_on = 0; //! 放电
+                // io_uart_tx(0x22);
+                // io_uart_tx(0x22);
                 // bFlag_init_ip53xs = 1;
                 // bFlag_charger_on = 0;
                 // displayData = 0x00; // SEG_ALL_OFF;
@@ -1024,7 +1087,8 @@ void get_p_ext_int_status(void)
             {
                 counter = 0;
                 bFlag_p_ext_int_is_high = 1;
-
+                // io_uart_tx(0x11);
+                // io_uart_tx(0x11);
                 ip55xs_read4Bytes(0X00C0);
                 // IP_DATA[3] |= (BIT2 | BIT0); // bit24,bit26
                 IP_DATA[3] &= ~(BIT2); // bit24,bit26
@@ -1065,14 +1129,23 @@ void is_chg_or_dischg(void)
 
     ip55xs_read4Bytes(0X1090);
     // reg_ip53xs = (IP_DATA[0] & BIT3);
+    // io_uart_tx(0x33);
+    // io_uart_tx(IP_DATA[0]);
+    // io_uart_tx(IP_DATA[1]);
+    // io_uart_tx(IP_DATA[2]);
+    // io_uart_tx(IP_DATA[3]);
+    // io_uart_tx(0x33);
     bFlag_qc_ok = 0;
 
     if (bFlag_charger_on) //! 在充电状态下
     {
         delaySleepTimer = CONST_DSL_SHORT; //! 防止充电状态MCU关5356
-        reg_ip53xs = (IP_DATA[2] & BIT3);  // bit19
+
+        reg_ip53xs = (IP_DATA[2] & BIT3); // bit19
         if (reg_ip53xs)
         {
+            // io_uart_tx(0xDD);
+            // io_uart_tx(0xDD);
             bFlag_chg_or_dischg = 0;
             if (++counter > 5) // CNST_FILTER_COM
             {
@@ -1124,6 +1197,8 @@ void is_chg_or_dischg(void)
             if ((IP_DATA[2] & BIT3)) // bit19
             {
                 displayTimer = CONST_TIMER_DISP_XSEC; //! 电量==0的时候 闪烁5秒后熄灭,反之一直显示
+                // io_uart_tx(0xCC);
+                // io_uart_tx(0xCC);
             }
             else
             { //! 轻载
@@ -1141,6 +1216,9 @@ void get_cap(void)
     // 0x10C0 [7:0]
     ip55xs_read4Bytes(0x10C0);
     displayData = IP_DATA[0];
+    // io_uart_tx(0x66);
+    // io_uart_tx(displayData);
+    // io_uart_tx(0x66);
 }
 // app_display_all
 void app_display_all(void) // 500ms ONE  time
@@ -1269,6 +1347,9 @@ void app_display_all(void) // 500ms ONE  time
             displayHundred = DISP_ALL_OFF;
 
             displayTimer--;
+            // io_uart_tx(0xCC);
+            // io_uart_tx(displayTimer);
+            // io_uart_tx(0xCC);
 
             if (displayData < 100)
             {
@@ -1362,8 +1443,8 @@ void main(void)
     PORTA = 0x00; // PORTB data buffer=0x00
     PORTB = 0x00;
     // Initial Interrupt Setting
-    INTE = C_INT_PABKey; // Enable PortB input change interrupt
-    INTF = 0x00;         // Clear all interrupt flags
+    // INTE = C_INT_PABKey; // Enable PortB input change interrupt
+    // INTF = 0x00;         // Clear all interrupt flags
 
     // Normal mode into Slow mode
     OSCCR = C_FLOSC_Sel; // OSCCR[0]=0 , FOSC is Low-frequency oscillation (FLOSC)
@@ -1419,6 +1500,9 @@ void main(void)
     P_LED_B_OFF;
 
     displayTimer = CONST_TIMER_DISP;
+    // io_uart_tx(0x11);
+    // io_uart_tx(0x22);
+    // io_uart_tx(0x33);
 
     while (TRUE)
     {
@@ -1441,6 +1525,9 @@ void main(void)
                 if (!(timer_slice_16ms & 0x1F))
                 {
                     bFlag_blink ^= 1;
+                    // io_uart_tx(0x55);
+                    // io_uart_tx(0x55);
+                    // io_uart_tx(0x55);
                     // P_LED_G ^= 1; //!实测 520ms
                     if (bFlag_p_ext_int_is_high)
                     {
@@ -1455,12 +1542,19 @@ void main(void)
 
                     if ((0 == bFlag_charger_on) && (!P_I2C_INT))
                     {
+                        // io_uart_tx(0xAA);
+                        // io_uart_tx(delaySleepTimer);
+                        // io_uart_tx(0xAA);
                         if (!delaySleepTimer)
                         {
                             // RB2 RA1 --> wake up
+                            // io_uart_tx(0x33);
+                            // io_uart_tx(0x22);
+                            // io_uart_tx(0x11);
                             DISI();
-                            INTE = 0x00; // Timer0 overflow interrupt enable bit
-                            PCON = 0xC8;
+                            CLRWDT();
+                            INTE = 0x00;  // Timer0 overflow interrupt enable bit
+                            PCON = 0x58;  // PCON = 0xC8;
                             PCON1 = 0x00; // Disable Timer0
                             // BPHCON = (unsigned char)~C_PB1_PHB;     // Enable PB1 Pull-High resistor
                             // BWUCON = C_PB1_Wakeup;                    // Enable PB1 input change wakeup function
@@ -1471,16 +1565,32 @@ void main(void)
                             // BPHCON = 0xEF;
                             PORTA = 0x00;
                             PORTB = 0x00;
-                            IOSTA = 0xFF;
-                            IOSTB = 0xFF;
+                            IOSTA = 0x00;
+                            IOSTB = 0x00;
+                            P_KEY_INPUT;
+                            P_KEY_IPS_INPUT;
                             // IOSTA = 0x73; // PA5 Input <-- Set PA5 to open drain output
                             // IOSTB = 0xF0; // PB5 output PB4 Input
                             // APHCON = 0xBF; //(unsigned char)(~C_PA7_PHB);
                             // BPHCON = 0xEF;
                             // BODCON = 0x00; // PB4 open-drain
+
                             // P_LED_R_OFF;
                             // P_LED_G_OFF;
                             // P_LED_B_OFF;
+                            // P_LED_R_OUTPUT;
+                            // P_LED_G_OUTPUT;
+                            // P_LED_B_OUTPUT;
+                            // P_LED_SEG1_CLR;
+                            // P_LED_SEG2_CLR;
+                            // P_LED_SEG3_CLR;
+                            // P_LED_SEG4_CLR;
+                            // P_LED_SEG5_CLR;
+                            // P_LED_SEG1_OUTPUT;
+                            // P_LED_SEG2_OUTPUT;
+                            // P_LED_SEG3_OUTPUT;
+                            // P_LED_SEG4_OUTPUT;
+                            // P_LED_SEG5_OUTPUT;
                             AWUCON = (C_PA2_Wakeup); // OK
                             BWUCON = C_PB0_Wakeup;   // OK
                             // Initial Interrupt Setting
@@ -1511,6 +1621,7 @@ void main(void)
                             // dispTimer = LED_DISP_TIME;
                             // }
                             //! FUCK PCON = 0x98;
+                            PCON = 0xC8;
                             // CMPCR = C_RBias_High_Dis | C_RBias_Low_Dis | C_CMPFINV_Dis | 0x0A; // initial SFR CMPCR (CMPF_INV=0) measure LVD_L
                             // PCON = 0xFC;
                             // PCONbits.LVDEN = 1;

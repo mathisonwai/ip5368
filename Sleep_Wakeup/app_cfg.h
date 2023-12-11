@@ -3,13 +3,13 @@
 
 #define BREATH_LED_MODE
 
-#define CONST_TIMER_DISP             (20)
-#define CONST_TIMER_DISP_UV          (11)
-#define DISP_ALL_OFF                 (0U)
-#define CONST_DSL_SHORT             (3)
-#define CNST_FILTER_COM             (2)
-#define CONST_TIMER_DISP_XSEC (10)
-#define CNST_TIMER_DLY_SLP (120)        // 120sec 5356 才能休眠
+#define CONST_TIMER_DISP                (20)
+#define CONST_TIMER_DISP_UV             (11)
+#define DISP_ALL_OFF                    (0U)
+#define CONST_DSL_SHORT                 (3)
+#define CNST_FILTER_COM                 (2)
+#define CONST_TIMER_DISP_XSEC           (10)
+#define CNST_TIMER_DLY_SLP              (20)        // 120sec 5356 才能休眠
 
 #ifndef TRUE
 #define TRUE        (1)
@@ -39,14 +39,14 @@
 // #define SEG_H               (0x80)
 
 
-#define  RA0        PORTAbits.PA0
-#define  RA1        PORTAbits.PA1
-#define  RA2        PORTAbits.PA2
-#define  RA3        PORTAbits.PA3
-#define  RA4        PORTAbits.PA4
-#define  RA5        PORTAbits.PA5
-#define  RA6        PORTAbits.PA6
-#define  RA7        PORTAbits.PA7
+#define  RA0        (PORTAbits.PA0)
+#define  RA1        (PORTAbits.PA1)
+#define  RA2        (PORTAbits.PA2)
+#define  RA3        (PORTAbits.PA3)
+#define  RA4        (PORTAbits.PA4)
+#define  RA5        (PORTAbits.PA5)
+#define  RA6        (PORTAbits.PA6)
+#define  RA7        (PORTAbits.PA7)
 
 #define  RB0        PORTBbits.PB0
 #define  RB1        PORTBbits.PB1
@@ -220,50 +220,24 @@
 #define IIC_WRITE   (0) 
 #define IIC_READ    (1) 
 
-#define CMD_ARRAY_SIZE  28
+//ad 
+#define CMD_ARRAY_SIZE          (28)
+#define AD_ARRAY_SIZE           (8)          //采样8次，这个参数不用改动，防止AD值累加平均出错
+#define AD_SUM_SHIFT            (3)           //右移3次平均
+#define AD_CH_AN0               (0x00)        // AN0 -- PA0
+#define AD_CH_AN1               (0x01)        // AN1 -- PA1
+#define AD_CH_V_IN              (0x02)        // AN2 -- PA2
+#define AD_CH_I_L               (0x03)        // AN3 -- PA3
+#define AD_CH_I_R               (0x04)        // AN4 -- PA4
+#define AD_CH_AN5               (0x05)        // AN5 -- PB0
+#define AD_CH_AN6               (0x06)        // AN6 -- PB1
+#define AD_CH_AN7               (0x07)        // AN7 -- PB2
+#define AD_CH_NTC               (0x08)        // AN8 -- PB3
+#define AD_CH_AN9               (0x09)        // AN9 -- PB4
+#define AD_CH_AN10              (0x0A)        // AN10 -- PB5
+#define AD_CH_V_BAT             (0x0B)        // AN11 -- 1/4 VDD
+//ad end
 
-#define AD_ARRAY_SIZE       8           //采样8次，这个参数不用改动，防止AD值累加平均出错
-#define AD_SUM_SHIFT        3           //右移3次平均
-
-
-#define AD_CH_AN0         0x00        // AN0 -- PA0
-#define AD_CH_AN1             0x01        // AN1 -- PA1
-#define AD_CH_V_IN             0x02        // AN2 -- PA2
-#define AD_CH_I_L             0x03        // AN3 -- PA3
-#define AD_CH_I_R             0x04        // AN4 -- PA4
-#define AD_CH_AN5             0x05        // AN5 -- PB0
-#define AD_CH_AN6             0x06        // AN6 -- PB1
-#define AD_CH_AN7             0x07        // AN7 -- PB2
-#define AD_CH_NTC           0x08        // AN8 -- PB3
-#define AD_CH_AN9             0x09        // AN9 -- PB4
-#define AD_CH_AN10            0x0A        // AN10 -- PB5
-#define AD_CH_V_BAT            0x0B        // AN11 -- 1/4 VDD
-
-//AD_CH_I_R
-
-//AD_CH_I_L
-#define CONST_KAI_GAI    16  // // 8-- 128ms   16 --256
-#define CONST_HE_GAI    255  //  4  sec
-
-
-#define CONST_MS_CNT        4
-#define CONST_RX_TIMER  (30*CONST_MS_CNT)
-
-#define CONST_RX_TIMER_OUT  (10*CONST_MS_CNT)
-#define CONST_DELAY_TIMER  16//(16*CONST_MS_CNT)
-#define CONST_DLY_OP_M68_TIMER  21 
-// #define BREATH_LED_MODE
-//#define USING_CHG_FULL
-
-//#define CONST_PRE_CNT           32        // 32 <-- 22
-
-//#define CONST_POWER_DN          0xFE
-//#define CONST_POWER_DN_MAX      0xF0
-//#define CONST_POWER_BALANCE     0x00
-//#define CONST_POWER_UP          0x02
-
-#define CONST_TIMER_5MS             13  // 400us/per
-#define CONST_TIMER_2MS             5   // 400us/per
 
 #define CONST_TIMER_34P8            147
 #define CONST_LOSS_TIMER            5
@@ -274,23 +248,7 @@
 #define DISP_TIMER                  1
 #define DISP_SHORT_TIMER            6
 #define DISP_LONG_TIMER             20
-//#define CONST_UV_DISP_TIME          11
 
-//#define MODE_STANDBY                0
-//#define MODE_WORKING                1
-
-//#define CONST_RATIO_CAHRGE          42          // <-- 44000/819 = 53.724
-//#define CONST_RATIO_DISCAHRGE       48          // <-- 44000/819 = 53.724
-//#define CONST_VREF_AD               462         // <-- 461.5
-
-/*
-#define CONST_AD_SET_UV             (1542+64)        // 3.14
-#define CONST_AD_BAT_CAP_0          (1552+64)        // 3.16
-#define CONST_AD_CLEAR_UV           (1695+64)        // 3.452
-#define CONST_AD_BAT_CAP_100        (2052+64)        // 4.176
-#define CONST_AD_BAT_FULL           (2057+64)        // 4.187
-#define CONST_AD_1PER               5           // (2052 - 1552)/100
-*/
 
 #define CONST_PY                    0//(64)
 #define CONST_AD_SET_UV             (1542+CONST_PY)        // 3.14

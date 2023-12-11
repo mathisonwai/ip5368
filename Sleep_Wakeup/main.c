@@ -551,59 +551,59 @@ void io_led_scan(void)
 
 // bms
 // NOP()
-void io_uart_tx(unsigned char sendByte)
-{
+// void io_uart_tx(unsigned char sendByte)
+// {
 
-    unsigned char bCount;
+//     unsigned char bCount;
 
-    bCount = 8;
-    DISI(); // GIE = 0;
-    P_IO_UART_TX_OUTPUT;
-    P_IO_UART_TX_CLR; // 输出高
-    NOP();
-    NOP();
-    NOP();
-    NOP();
-    NOP();
-    NOP();
-    NOP();
-    NOP();
-    NOP();
+//     bCount = 8;
+//     DISI(); // GIE = 0;
+//     P_IO_UART_TX_OUTPUT;
+//     P_IO_UART_TX_CLR; // 输出高
+//     NOP();
+//     NOP();
+//     NOP();
+//     NOP();
+//     NOP();
+//     NOP();
+//     NOP();
+//     NOP();
+//     NOP();
 
-    while (bCount)
-    {
-        if (sendByte & 0x01)
-        {
-            P_IO_UART_TX_SET; // 输出高
-            NOP();
-            NOP();
-        }
-        else
-        {
-            P_IO_UART_TX_CLR; // 输出低
-            NOP();
-            NOP();
-            NOP();
-            NOP();
-            NOP();
-        }
-        bCount--;
-        sendByte >>= 1;
-    }
+//     while (bCount)
+//     {
+//         if (sendByte & 0x01)
+//         {
+//             P_IO_UART_TX_SET; // 输出高
+//             NOP();
+//             NOP();
+//         }
+//         else
+//         {
+//             P_IO_UART_TX_CLR; // 输出低
+//             NOP();
+//             NOP();
+//             NOP();
+//             NOP();
+//             NOP();
+//         }
+//         bCount--;
+//         sendByte >>= 1;
+//     }
 
-    NOP();
-    P_IO_UART_TX_SET; // 输出高
-    NOP();
-    NOP();
-    NOP();
-    NOP();
-    NOP();
-    NOP();
-    NOP();
-    NOP();
-    NOP();
-    ENI(); // GIE = 1;
-}
+//     NOP();
+//     P_IO_UART_TX_SET; // 输出高
+//     NOP();
+//     NOP();
+//     NOP();
+//     NOP();
+//     NOP();
+//     NOP();
+//     NOP();
+//     NOP();
+//     NOP();
+//     ENI(); // GIE = 1;
+// }
 
 KEY_EVENT gpioKeyScan(void)
 {
@@ -1435,7 +1435,7 @@ void main(void)
     DISI();
     // Initial GPIO
     BPHCON = (unsigned char)~C_PB0_PHB; // Enable PB1 Pull-High resistor
-    BWUCON = C_PB0_Wakeup;              // Enable PB1 input change wakeup function
+    // BWUCON = C_PB0_Wakeup;              // Enable PB1 input change wakeup function
 
     IOSTA = 0xFF;
     IOSTB = 0xFF;
@@ -1551,11 +1551,13 @@ void main(void)
                             // io_uart_tx(0x33);
                             // io_uart_tx(0x22);
                             // io_uart_tx(0x11);
-                            DISI();
+                            
                             CLRWDT();
                             INTE = 0x00;  // Timer0 overflow interrupt enable bit
                             PCON = 0x58;  // PCON = 0xC8;
                             PCON1 = 0x00; // Disable Timer0
+                              INTF = 0;
+                            DISI();
                             // BPHCON = (unsigned char)~C_PB1_PHB;     // Enable PB1 Pull-High resistor
                             // BWUCON = C_PB1_Wakeup;                    // Enable PB1 input change wakeup function
                             // IOSTB  = C_PB1_Input;                 // Set PB1 to input mode,others set to output mode
@@ -1569,6 +1571,9 @@ void main(void)
                             IOSTB = 0x00;
                             P_KEY_INPUT;
                             P_KEY_IPS_INPUT;
+                            P_I2C_INT_INPUT;
+                            P_I2C_SCL_INPUT;
+                            P_I2C_SDA_INPUT;
                             // IOSTA = 0x73; // PA5 Input <-- Set PA5 to open drain output
                             // IOSTB = 0xF0; // PB5 output PB4 Input
                             // APHCON = 0xBF; //(unsigned char)(~C_PA7_PHB);
@@ -1605,10 +1610,14 @@ void main(void)
                             {
                                 goto skip_sleep;
                             }
+                            NOP();
+                            NOP();
                             UPDATE_REG(PORTB);
                             UPDATE_REG(PORTA);
                             NOP();
+                            NOP();
                             SLEEP();
+                            NOP();
                             NOP();
                         skip_sleep:
                             INTFbits.PABIF = 0;

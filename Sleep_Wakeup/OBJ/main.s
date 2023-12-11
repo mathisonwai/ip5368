@@ -86,7 +86,6 @@
 	extern	_i2c_stop
 	extern	_i2c_start
 	extern	_gpioKeyScan
-	extern	_io_uart_tx
 	extern	__dly_us
 	extern	_disable_breathing_mode
 	extern	_enable_breathing_mode
@@ -315,22 +314,16 @@ _gSysTick:
 ; compiler-defined variables
 ;--------------------------------------------------------
 .segment "uninit"
-r0x1034:
-	.res	1
-.segment "uninit"
-r0x1035:
-	.res	1
-.segment "uninit"
-r0x101A:
+r0x1032:
 	.res	1
 .segment "uninit"
 r0x1033:
 	.res	1
 .segment "uninit"
-r0x1031:
+r0x101A:
 	.res	1
 .segment "uninit"
-r0x1032:
+r0x1031:
 	.res	1
 .segment "uninit"
 r0x101B:
@@ -408,13 +401,13 @@ ___sdcc_saved_stk01:
 	.res	1
 	.debuginfo complex-type (symbol "___sdcc_saved_stk01" 1 global "" 0 (basetype 1 unsigned))
 .segment "uninit"
-_get_p_ext_int_status_counter_65536_121:
+_get_p_ext_int_status_counter_65536_116:
 	.res	1
-	.debuginfo complex-type (symbol "_get_p_ext_int_status_counter_65536_121" 1 global "" 0 (basetype 1 unsigned))
+	.debuginfo complex-type (symbol "_get_p_ext_int_status_counter_65536_116" 1 global "" 0 (basetype 1 unsigned))
 .segment "uninit"
-_is_chg_or_dischg_counter_65536_131:
+_is_chg_or_dischg_counter_65536_126:
 	.res	1
-	.debuginfo complex-type (symbol "_is_chg_or_dischg_counter_65536_131" 1 global "" 0 (basetype 1 unsigned))
+	.debuginfo complex-type (symbol "_is_chg_or_dischg_counter_65536_126" 1 global "" 0 (basetype 1 unsigned))
 ;--------------------------------------------------------
 ; initialized data
 ;--------------------------------------------------------
@@ -557,8 +550,8 @@ __sdcc_interrupt:
 ;4 compiler assigned registers:
 ;   STK00
 ;   STK01
-;   r0x1034
-;   r0x1035
+;   r0x1032
+;   r0x1033
 ;; Starting pCode block
 _isr:
 ; 0 exit points
@@ -619,9 +612,9 @@ _00015_DS_:
 	.line	224, "main.c"; 	respiration_lamp_timer++;
 	BANKSEL	_respiration_lamp_timer
 	MOVR	_respiration_lamp_timer,W
-	BANKSEL	r0x1034
-	MOVAR	r0x1034
-	INCR	r0x1034,W
+	BANKSEL	r0x1032
+	MOVAR	r0x1032
+	INCR	r0x1032,W
 	BANKSEL	_respiration_lamp_timer
 	MOVAR	_respiration_lamp_timer
 	.line	226, "main.c"; 	if (!(respiration_lamp_timer))
@@ -642,15 +635,15 @@ _00015_DS_:
 	.line	234, "main.c"; 	if (++indicator_light_mode > 2)
 	BANKSEL	_indicator_light_mode
 	INCR	_indicator_light_mode,W
-	BANKSEL	r0x1034
-	MOVAR	r0x1034
+	BANKSEL	r0x1032
+	MOVAR	r0x1032
 	BANKSEL	_indicator_light_mode
 	MOVAR	_indicator_light_mode
 ;;swapping arguments (AOP_TYPEs 1/2)
 ;;unsigned compare: left >= lit(0x3=3), size=1
 	MOVIA	0x03
-	BANKSEL	r0x1034
-	SUBAR	r0x1034,W
+	BANKSEL	r0x1032
+	SUBAR	r0x1032,W
 	BTRSS	STATUS,0
 	MGOTO	_02019_DS_
 	.line	236, "main.c"; 	indicator_light_mode = 0;
@@ -677,17 +670,17 @@ _02019_DS_:
 	BANKSEL	_isr_respiration_lamp_series_65536_5
 	MOVR	_isr_respiration_lamp_series_65536_5,W
 	ADDIA	(_RESPIRATION_LAMP_TABLE + 0)
-	BANKSEL	r0x1034
-	MOVAR	r0x1034
+	BANKSEL	r0x1032
+	MOVAR	r0x1032
 	MOVIA	((_RESPIRATION_LAMP_TABLE + 0) >> 8) & 0xff
 	ADCIA	0x00
-	BANKSEL	r0x1035
-	MOVAR	r0x1035
-	BANKSEL	r0x1034
-	MOVR	r0x1034,W
+	BANKSEL	r0x1033
+	MOVAR	r0x1033
+	BANKSEL	r0x1032
+	MOVR	r0x1032,W
 	MOVAR	STK01
-	BANKSEL	r0x1035
-	MOVR	r0x1035,W
+	BANKSEL	r0x1033
+	MOVR	r0x1033,W
 	MOVAR	STK00
 	MOVIA	0x80
 	MCALL	__gptrget1
@@ -790,9 +783,6 @@ _main:
 	.line	1437, "main.c"; 	BPHCON = (unsigned char)~C_PB0_PHB; // Enable PB1 Pull-High resistor
 	MOVIA	0xfe
 	MOVAR	_BPHCON
-	.line	1438, "main.c"; 	BWUCON = C_PB0_Wakeup;              // Enable PB1 input change wakeup function
-	MOVIA	0x01
-	MOVAR	_BWUCON
 	.line	1440, "main.c"; 	IOSTA = 0xFF;
 	MOVIA	0xff
 	IOST	_IOSTA
@@ -869,18 +859,18 @@ _main:
 	MOVIA	0x14
 	BANKSEL	_displayTimer
 	MOVAR	_displayTimer
-_02534_DS_:
+_02524_DS_:
 	.line	1509, "main.c"; 	CLRWDT();
 	clrwdt
 	.line	1510, "main.c"; 	if (bFlag_gSysTick_Change)
 	BANKSEL	_vFlag_0
 	BTRSS	_vFlag_0,0
-	MGOTO	_02534_DS_
+	MGOTO	_02524_DS_
 	.line	1512, "main.c"; 	bFlag_gSysTick_Change = 0;
 	BCR	_vFlag_0,0
 	.line	1513, "main.c"; 	if (bFlag_slice_16ms)
 	BTRSS	_vFlag_0,1
-	MGOTO	_02534_DS_
+	MGOTO	_02524_DS_
 	.line	1516, "main.c"; 	bFlag_slice_16ms = 0;
 	BCR	_vFlag_0,1
 	.line	1517, "main.c"; 	timer_slice_16ms++;
@@ -905,7 +895,7 @@ _02534_DS_:
 	MOVR	_timer_slice_16ms,W
 	ANDIA	0x1f
 	BTRSS	STATUS,2
-	MGOTO	_02517_DS_
+	MGOTO	_02507_DS_
 	.line	1527, "main.c"; 	bFlag_blink ^= 1;
 	MOVIA	0x80
 	BANKSEL	_vFlag_0
@@ -917,26 +907,24 @@ _02534_DS_:
 	MCALL	_get_cap
 	.line	1536, "main.c"; 	app_display_all();
 	MCALL	_app_display_all
-_02517_DS_:
+_02507_DS_:
 	.line	1538, "main.c"; 	if (!(timer_slice_16ms & 0x3F))
 	BANKSEL	_timer_slice_16ms
 	MOVR	_timer_slice_16ms,W
 	ANDIA	0x3f
 	BTRSS	STATUS,2
-	MGOTO	_02534_DS_
+	MGOTO	_02524_DS_
 	.line	1543, "main.c"; 	if ((0 == bFlag_charger_on) && (!P_I2C_INT))
 	BANKSEL	_vFlag_1
 	BTRSC	_vFlag_1,5
-	MGOTO	_02534_DS_
+	MGOTO	_02524_DS_
 	BTRSC	_PORTAbits,2
-	MGOTO	_02534_DS_
+	MGOTO	_02524_DS_
 	.line	1548, "main.c"; 	if (!delaySleepTimer)
 	BANKSEL	_delaySleepTimer
 	MOVR	_delaySleepTimer,W
 	BTRSS	STATUS,2
-	MGOTO	_02522_DS_
-	.line	1554, "main.c"; 	DISI();
-	DISI
+	MGOTO	_02512_DS_
 	.line	1555, "main.c"; 	CLRWDT();
 	clrwdt
 	.line	1556, "main.c"; 	INTE = 0x00;  // Timer0 overflow interrupt enable bit
@@ -947,78 +935,108 @@ _02517_DS_:
 	.line	1558, "main.c"; 	PCON1 = 0x00; // Disable Timer0
 	CLRA	
 	IOST	_PCON1
-	.line	1566, "main.c"; 	PORTA = 0x00;
+	.line	1559, "main.c"; 	INTF = 0;
+	CLRR	_INTF
+	.line	1560, "main.c"; 	DISI();
+	DISI
+	.line	1568, "main.c"; 	PORTA = 0x00;
 	CLRR	_PORTA
-	.line	1567, "main.c"; 	PORTB = 0x00;
+	.line	1569, "main.c"; 	PORTB = 0x00;
 	CLRR	_PORTB
-	.line	1568, "main.c"; 	IOSTA = 0x00;
+	.line	1570, "main.c"; 	IOSTA = 0x00;
 	CLRA	
 	IOST	_IOSTA
-	.line	1569, "main.c"; 	IOSTB = 0x00;
+	.line	1571, "main.c"; 	IOSTB = 0x00;
 	IOST	_IOSTB
-	.line	1570, "main.c"; 	P_KEY_INPUT;
+	.line	1572, "main.c"; 	P_KEY_INPUT;
 	IOSTR	_IOSTB
 	BANKSEL	r0x102D
 	MOVAR	r0x102D
 	BSR	r0x102D,0
 	MOVR	r0x102D,W
 	IOST	_IOSTB
-	.line	1571, "main.c"; 	P_KEY_IPS_INPUT;
+	.line	1573, "main.c"; 	P_KEY_IPS_INPUT;
 	IOSTR	_IOSTB
 	MOVAR	r0x102D
 	BSR	r0x102D,1
 	MOVR	r0x102D,W
 	IOST	_IOSTB
-	.line	1594, "main.c"; 	AWUCON = (C_PA2_Wakeup); // OK
+	.line	1574, "main.c"; 	P_I2C_INT_INPUT;
+	IOSTR	_IOSTA
+	MOVAR	r0x102D
+	BSR	r0x102D,2
+	MOVR	r0x102D,W
+	IOST	_IOSTA
+	.line	1575, "main.c"; 	P_I2C_SCL_INPUT;
+	IOSTR	_IOSTA
+	MOVAR	r0x102D
+	BSR	r0x102D,4
+	MOVR	r0x102D,W
+	IOST	_IOSTA
+	.line	1576, "main.c"; 	P_I2C_SDA_INPUT;
+	IOSTR	_IOSTA
+	MOVAR	r0x102D
+	BSR	r0x102D,3
+	MOVR	r0x102D,W
+	IOST	_IOSTA
+	.line	1599, "main.c"; 	AWUCON = (C_PA2_Wakeup); // OK
 	MOVIA	0x04
 	MOVAR	_AWUCON
-	.line	1595, "main.c"; 	BWUCON = C_PB0_Wakeup;   // OK
+	.line	1600, "main.c"; 	BWUCON = C_PB0_Wakeup;   // OK
 	MOVIA	0x01
 	MOVAR	_BWUCON
-	.line	1597, "main.c"; 	INTE = C_INT_PABKey; // Enable PortB input change interrupt
+	.line	1602, "main.c"; 	INTE = C_INT_PABKey; // Enable PortB input change interrupt
 	MOVIA	0x02
 	MOVAR	_INTE
-	.line	1598, "main.c"; 	INTF = 0;
+	.line	1603, "main.c"; 	INTF = 0;
 	CLRR	_INTF
-	.line	1604, "main.c"; 	if (!P_KEY)
+	.line	1609, "main.c"; 	if (!P_KEY)
 	BTRSS	_PORTBbits,0
-	MGOTO	_02520_DS_
-	.line	1608, "main.c"; 	UPDATE_REG(PORTB);
+	MGOTO	_02510_DS_
+	.line	1613, "main.c"; 	NOP();
+	nop
+	.line	1614, "main.c"; 	NOP();
+	nop
+	.line	1615, "main.c"; 	UPDATE_REG(PORTB);
 	MOVR	_PORTB,F
-	.line	1609, "main.c"; 	UPDATE_REG(PORTA);
+	.line	1616, "main.c"; 	UPDATE_REG(PORTA);
 	MOVR	_PORTA,F
-	.line	1610, "main.c"; 	NOP();
+	.line	1617, "main.c"; 	NOP();
 	nop
-	.line	1611, "main.c"; 	SLEEP();
+	.line	1618, "main.c"; 	NOP();
+	nop
+	.line	1619, "main.c"; 	SLEEP();
 	sleep
-	.line	1612, "main.c"; 	NOP();
+	.line	1620, "main.c"; 	NOP();
 	nop
-_02520_DS_:
-	.line	1614, "main.c"; 	INTFbits.PABIF = 0;
+	.line	1621, "main.c"; 	NOP();
+	nop
+_02510_DS_:
+	.line	1623, "main.c"; 	INTFbits.PABIF = 0;
 	MOVIA	0xfd
 	MOVAR	(_INTFbits + 0)
-	.line	1618, "main.c"; 	delaySleepTimer = CONST_DELAY_SLEEP_TIME;
+	.line	1627, "main.c"; 	delaySleepTimer = CONST_DELAY_SLEEP_TIME;
 	MOVIA	0x14
 	BANKSEL	_delaySleepTimer
 	MOVAR	_delaySleepTimer
-	.line	1624, "main.c"; 	PCON = 0xC8;
+	.line	1633, "main.c"; 	PCON = 0xC8;
 	MOVIA	0xc8
 	MOVAR	_PCON
-	.line	1637, "main.c"; 	PCON1 |= C_TMR0_En;            // Enable Timer0
+	.line	1646, "main.c"; 	PCON1 |= C_TMR0_En;            // Enable Timer0
 	IOSTR	_PCON1
 	BANKSEL	r0x102D
 	MOVAR	r0x102D
 	BSR	r0x102D,0
 	MOVR	r0x102D,W
 	IOST	_PCON1
-	.line	1638, "main.c"; 	INTE = (0x01 /*| C_INT_LVD*/); // Timer0 overflow interrupt enable bit
+	.line	1647, "main.c"; 	INTE = (0x01 /*| C_INT_LVD*/); // Timer0 overflow interrupt enable bit
 	MOVIA	0x01
 	MOVAR	_INTE
-	.line	1639, "main.c"; 	ENI();
+	.line	1648, "main.c"; 	ENI();
 	ENI
-	MGOTO	_02534_DS_
-_02522_DS_:
-	.line	1643, "main.c"; 	delaySleepTimer--;
+	MGOTO	_02524_DS_
+_02512_DS_:
+	.line	1652, "main.c"; 	delaySleepTimer--;
 	BANKSEL	_delaySleepTimer
 	MOVR	_delaySleepTimer,W
 	BANKSEL	r0x102D
@@ -1026,8 +1044,8 @@ _02522_DS_:
 	DECR	r0x102D,W
 	BANKSEL	_delaySleepTimer
 	MOVAR	_delaySleepTimer
-	MGOTO	_02534_DS_
-	.line	1652, "main.c"; 	}
+	MGOTO	_02524_DS_
+	.line	1661, "main.c"; 	}
 	RETURN	
 ; exit point of _main
 
@@ -1092,7 +1110,7 @@ _app_display_all:
 	BANKSEL	_forceDispTimer
 	MOVR	_forceDispTimer,W
 	BTRSC	STATUS,2
-	MGOTO	_02505_DS_
+	MGOTO	_02495_DS_
 	.line	1231, "main.c"; 	forceDispTimer--;
 	MOVR	_forceDispTimer,W
 	BANKSEL	r0x101A
@@ -1130,7 +1148,7 @@ _app_display_all:
 	BANKSEL	_forceDispTimer
 	MOVR	_forceDispTimer,W
 	BTRSS	STATUS,2
-	MGOTO	_02507_DS_
+	MGOTO	_02497_DS_
 	.line	1240, "main.c"; 	displayHundred = DISP_ALL_OFF;
 	BANKSEL	_displayHundred
 	CLRR	_displayHundred
@@ -1140,12 +1158,12 @@ _app_display_all:
 	.line	1242, "main.c"; 	displayDigit = DISP_ALL_OFF;
 	BANKSEL	_displayDigit
 	CLRR	_displayDigit
-	MGOTO	_02507_DS_
-_02505_DS_:
+	MGOTO	_02497_DS_
+_02495_DS_:
 	.line	1247, "main.c"; 	else if (bFlag_charger_on) // bFlag_charger_nbFlag_vin_plug_in
 	BANKSEL	_vFlag_1
 	BTRSS	_vFlag_1,5
-	MGOTO	_02502_DS_
+	MGOTO	_02492_DS_
 	.line	1249, "main.c"; 	underVoltageDispTimer = 0;
 	BANKSEL	_underVoltageDispTimer
 	CLRR	_underVoltageDispTimer
@@ -1159,7 +1177,7 @@ _02505_DS_:
 	BANKSEL	_displayData
 	SUBAR	_displayData,W
 	BTRSC	STATUS,0
-	MGOTO	_02464_DS_
+	MGOTO	_02454_DS_
 	.line	1255, "main.c"; 	displayHundred = DISP_ALL_OFF;
 	BANKSEL	_displayHundred
 	CLRR	_displayHundred
@@ -1174,7 +1192,7 @@ _00001_DS_:
 	.line	1261, "main.c"; 	if (bFlag_blink)
 	BANKSEL	_vFlag_0
 	BTRSS	_vFlag_0,7
-	MGOTO	_02459_DS_
+	MGOTO	_02449_DS_
 	.line	1263, "main.c"; 	i = displayData / 10;
 	MOVIA	0x0a
 	MOVAR	STK00
@@ -1198,7 +1216,7 @@ _00001_DS_:
 	BANKSEL	r0x101A
 	MOVR	r0x101A,W
 	BTRSC	STATUS,2
-	MGOTO	_02457_DS_
+	MGOTO	_02447_DS_
 	.line	1269, "main.c"; 	displayDecade = DispTable[i];
 	MOVIA	(_DispTable + 0)
 	ADDAR	r0x101A,F
@@ -1216,7 +1234,7 @@ _00001_DS_:
 	MCALL	__gptrget1
 	BANKSEL	_displayDecade
 	MOVAR	_displayDecade
-_02457_DS_:
+_02447_DS_:
 	.line	1272, "main.c"; 	displayDigit = DispTable[j];
 	MOVIA	(_DispTable + 0)
 	BANKSEL	r0x101B
@@ -1235,13 +1253,13 @@ _02457_DS_:
 	MCALL	__gptrget1
 	BANKSEL	_displayDigit
 	MOVAR	_displayDigit
-	MGOTO	_02507_DS_
-_02459_DS_:
+	MGOTO	_02497_DS_
+_02449_DS_:
 	.line	1276, "main.c"; 	displayDigit = DISP_ALL_OFF; // 个位闪烁 充电
 	BANKSEL	_displayDigit
 	CLRR	_displayDigit
-	MGOTO	_02507_DS_
-_02464_DS_:
+	MGOTO	_02497_DS_
+_02454_DS_:
 	.line	1281, "main.c"; 	disable_breathing_mode();
 	MCALL	_disable_breathing_mode
 	.line	1282, "main.c"; 	P_LED_G_ON;
@@ -1278,13 +1296,13 @@ _00002_DS_:
 	MOVAR	_displayDecade
 ;;101	MOVR	r0x101A,W
 	.line	1289, "main.c"; 	displayDigit = DispTable[0];
-	MGOTO	_02507_DS_
-_02502_DS_:
+	MGOTO	_02497_DS_
+_02492_DS_:
 	.line	1296, "main.c"; 	if (underVoltageDispTimer) // 欠压关机显示
 	BANKSEL	_underVoltageDispTimer
 	MOVR	_underVoltageDispTimer,W
 	BTRSC	STATUS,2
-	MGOTO	_02499_DS_
+	MGOTO	_02489_DS_
 	.line	1298, "main.c"; 	underVoltageDispTimer--;
 	MOVR	_underVoltageDispTimer,W
 	BANKSEL	r0x101A
@@ -1309,7 +1327,7 @@ _00003_DS_:
 	.line	1312, "main.c"; 	if (underVoltageDispTimer % 2)
 	BANKSEL	_underVoltageDispTimer
 	BTRSS	_underVoltageDispTimer,0
-	MGOTO	_02474_DS_
+	MGOTO	_02464_DS_
 	.line	1314, "main.c"; 	i = displayData / 10;
 	MOVIA	0x0a
 	MOVAR	STK00
@@ -1330,7 +1348,7 @@ _00003_DS_:
 	BANKSEL	r0x101A
 	MOVR	r0x101A,W
 	BTRSC	STATUS,2
-	MGOTO	_02469_DS_
+	MGOTO	_02459_DS_
 	.line	1319, "main.c"; 	displayDecade = DispTable[i];
 	MOVIA	(_DispTable + 0)
 	ADDAR	r0x101A,F
@@ -1348,12 +1366,12 @@ _00003_DS_:
 	MCALL	__gptrget1
 	BANKSEL	_displayDecade
 	MOVAR	_displayDecade
-	MGOTO	_02470_DS_
-_02469_DS_:
+	MGOTO	_02460_DS_
+_02459_DS_:
 	.line	1323, "main.c"; 	displayDecade = DISP_ALL_OFF;
 	BANKSEL	_displayDecade
 	CLRR	_displayDecade
-_02470_DS_:
+_02460_DS_:
 	.line	1326, "main.c"; 	displayDigit = DispTable[j];
 	MOVIA	(_DispTable + 0)
 	BANKSEL	r0x101B
@@ -1373,7 +1391,7 @@ _02470_DS_:
 	BANKSEL	_displayDigit
 	MOVAR	_displayDigit
 	MGOTO	_00004_DS_
-_02474_DS_:
+_02464_DS_:
 	.line	1330, "main.c"; 	if (0 == displayData)
 	BANKSEL	_displayData
 	MOVR	_displayData,W
@@ -1387,12 +1405,12 @@ _00004_DS_:
 	BANKSEL	_underVoltageDispTimer
 	MOVR	_underVoltageDispTimer,W
 	BTRSS	STATUS,2
-	MGOTO	_02507_DS_
+	MGOTO	_02497_DS_
 	.line	1338, "main.c"; 	if (displayData)
 	BANKSEL	_displayData
 	MOVR	_displayData,W
 	BTRSC	STATUS,2
-	MGOTO	_02507_DS_
+	MGOTO	_02497_DS_
 	.line	1340, "main.c"; 	displayData--;
 	MOVR	_displayData,W
 	BANKSEL	r0x101A
@@ -1404,13 +1422,13 @@ _00004_DS_:
 	MOVIA	0x0a
 	BANKSEL	_underVoltageDispTimer
 	MOVAR	_underVoltageDispTimer
-	MGOTO	_02507_DS_
-_02499_DS_:
+	MGOTO	_02497_DS_
+_02489_DS_:
 	.line	1345, "main.c"; 	else if (displayTimer)
 	BANKSEL	_displayTimer
 	MOVR	_displayTimer,W
 	BTRSC	STATUS,2
-	MGOTO	_02496_DS_
+	MGOTO	_02486_DS_
 	.line	1347, "main.c"; 	displayHundred = DISP_ALL_OFF;
 	BANKSEL	_displayHundred
 	CLRR	_displayHundred
@@ -1428,7 +1446,7 @@ _02499_DS_:
 	BANKSEL	_displayData
 	SUBAR	_displayData,W
 	BTRSC	STATUS,0
-	MGOTO	_02493_DS_
+	MGOTO	_02483_DS_
 	.line	1356, "main.c"; 	displayHundred = DISP_ALL_OFF;
 	BANKSEL	_displayHundred
 	CLRR	_displayHundred
@@ -1443,7 +1461,7 @@ _00005_DS_:
 	.line	1362, "main.c"; 	if (bFlag_blink)
 	BANKSEL	_vFlag_0
 	BTRSS	_vFlag_0,7
-	MGOTO	_02488_DS_
+	MGOTO	_02478_DS_
 	.line	1364, "main.c"; 	i = displayData / 10;
 	MOVIA	0x0a
 	MOVAR	STK00
@@ -1464,7 +1482,7 @@ _00005_DS_:
 	BANKSEL	r0x101A
 	MOVR	r0x101A,W
 	BTRSC	STATUS,2
-	MGOTO	_02483_DS_
+	MGOTO	_02473_DS_
 	.line	1369, "main.c"; 	displayDecade = DispTable[i];
 	MOVIA	(_DispTable + 0)
 	ADDAR	r0x101A,F
@@ -1482,12 +1500,12 @@ _00005_DS_:
 	MCALL	__gptrget1
 	BANKSEL	_displayDecade
 	MOVAR	_displayDecade
-	MGOTO	_02484_DS_
-_02483_DS_:
+	MGOTO	_02474_DS_
+_02473_DS_:
 	.line	1373, "main.c"; 	displayDecade = DISP_ALL_OFF;
 	BANKSEL	_displayDecade
 	CLRR	_displayDecade
-_02484_DS_:
+_02474_DS_:
 	.line	1376, "main.c"; 	displayDigit = DispTable[j];
 	MOVIA	(_DispTable + 0)
 	BANKSEL	r0x101B
@@ -1506,18 +1524,18 @@ _02484_DS_:
 	MCALL	__gptrget1
 	BANKSEL	_displayDigit
 	MOVAR	_displayDigit
-	MGOTO	_02507_DS_
-_02488_DS_:
+	MGOTO	_02497_DS_
+_02478_DS_:
 	.line	1381, "main.c"; 	if (0 == displayData)
 	BANKSEL	_displayData
 	MOVR	_displayData,W
 	BTRSS	STATUS,2
-	MGOTO	_02507_DS_
+	MGOTO	_02497_DS_
 	.line	1383, "main.c"; 	displayDigit = DISP_ALL_OFF;
 	BANKSEL	_displayDigit
 	CLRR	_displayDigit
-	MGOTO	_02507_DS_
-_02493_DS_:
+	MGOTO	_02497_DS_
+_02483_DS_:
 	.line	1389, "main.c"; 	displayHundred = DispTable[1];
 	MOVIA	(_DispTable + 1)
 	MOVAR	STK01
@@ -1551,8 +1569,8 @@ _00006_DS_:
 	MOVR	r0x101A,W
 	BANKSEL	_displayDigit
 	MOVAR	_displayDigit
-	MGOTO	_02507_DS_
-_02496_DS_:
+	MGOTO	_02497_DS_
+_02486_DS_:
 	.line	1400, "main.c"; 	displayHundred = DISP_ALL_OFF;
 	BANKSEL	_displayHundred
 	CLRR	_displayHundred
@@ -1562,7 +1580,7 @@ _02496_DS_:
 	.line	1402, "main.c"; 	displayDigit = DISP_ALL_OFF;
 	BANKSEL	_displayDigit
 	CLRR	_displayDigit
-_02507_DS_:
+_02497_DS_:
 	.line	1405, "main.c"; 	}
 	RETURN	
 ; exit point of _app_display_all
@@ -1613,7 +1631,7 @@ _get_cap:
 .segment "code"; module=main, function=_is_chg_or_dischg
 	.debuginfo subprogram _is_chg_or_dischg
 ;local variable name mapping:
-	.debuginfo complex-type (local-sym "_counter" 1 "main.c" 1128 (basetype 1 unsigned) link "_is_chg_or_dischg_counter_65536_131")
+	.debuginfo complex-type (local-sym "_counter" 1 "main.c" 1128 (basetype 1 unsigned) link "_is_chg_or_dischg_counter_65536_126")
 _is_chg_or_dischg:
 ; 2 exit points
 	.line	1130, "main.c"; 	ip55xs_read4Bytes(0X1090);
@@ -1627,7 +1645,7 @@ _is_chg_or_dischg:
 	.line	1140, "main.c"; 	if (bFlag_charger_on) //! 在充电状态下
 	BANKSEL	_vFlag_1
 	BTRSS	_vFlag_1,5
-	MGOTO	_02441_DS_
+	MGOTO	_02431_DS_
 	.line	1142, "main.c"; 	delaySleepTimer = CONST_DSL_SHORT; //! 防止充电状态MCU关5356
 	MOVIA	0x03
 	BANKSEL	_delaySleepTimer
@@ -1638,31 +1656,31 @@ _is_chg_or_dischg:
 	BANKSEL	r0x1028
 	MOVAR	r0x1028
 	BTRSS	r0x1028,3
-	MGOTO	_02427_DS_
+	MGOTO	_02417_DS_
 	.line	1149, "main.c"; 	bFlag_chg_or_dischg = 0;
 	BANKSEL	_vFlag_1
 	BCR	_vFlag_1,6
 	.line	1150, "main.c"; 	if (++counter > 5) // CNST_FILTER_COM
-	BANKSEL	_is_chg_or_dischg_counter_65536_131
-	INCR	_is_chg_or_dischg_counter_65536_131,F
+	BANKSEL	_is_chg_or_dischg_counter_65536_126
+	INCR	_is_chg_or_dischg_counter_65536_126,F
 ;;swapping arguments (AOP_TYPEs 1/3)
 ;;unsigned compare: left >= lit(0x6=6), size=1
 	MOVIA	0x06
-	SUBAR	_is_chg_or_dischg_counter_65536_131,W
+	SUBAR	_is_chg_or_dischg_counter_65536_126,W
 	BTRSS	STATUS,0
-	MGOTO	_02443_DS_
+	MGOTO	_02433_DS_
 	.line	1152, "main.c"; 	counter = 0;
-	CLRR	_is_chg_or_dischg_counter_65536_131
+	CLRR	_is_chg_or_dischg_counter_65536_126
 	.line	1153, "main.c"; 	bFlag_charger_on = 0; //! 放电
 	BANKSEL	_vFlag_1
 	BCR	_vFlag_1,5
 	.line	1154, "main.c"; 	disable_breathing_mode();
 	MCALL	_disable_breathing_mode
-	MGOTO	_02443_DS_
-_02427_DS_:
+	MGOTO	_02433_DS_
+_02417_DS_:
 	.line	1159, "main.c"; 	counter = 0;
-	BANKSEL	_is_chg_or_dischg_counter_65536_131
-	CLRR	_is_chg_or_dischg_counter_65536_131
+	BANKSEL	_is_chg_or_dischg_counter_65536_126
+	CLRR	_is_chg_or_dischg_counter_65536_126
 	.line	1161, "main.c"; 	if (IP_DATA[1] & BIT7)
 	BANKSEL	_IP_DATA
 	MOVR	(_IP_DATA + 1),W
@@ -1677,29 +1695,29 @@ _00007_DS_:
 	.line	1165, "main.c"; 	bFlag_chg_or_dischg = 1;
 	BANKSEL	_vFlag_1
 	BSR	_vFlag_1,6
-	MGOTO	_02443_DS_
-_02441_DS_:
+	MGOTO	_02433_DS_
+_02431_DS_:
 	.line	1173, "main.c"; 	reg_ip53xs = (IP_DATA[1] & BIT3); // bit11
 	BANKSEL	_IP_DATA
 	MOVR	(_IP_DATA + 1),W
 	BANKSEL	r0x1028
 	MOVAR	r0x1028
 	BTRSS	r0x1028,3
-	MGOTO	_02438_DS_
+	MGOTO	_02428_DS_
 	.line	1176, "main.c"; 	bFlag_chg_or_dischg = 1;
 	BANKSEL	_vFlag_1
 	BSR	_vFlag_1,6
 	.line	1177, "main.c"; 	if (++counter > CNST_FILTER_COM) // 2次
-	BANKSEL	_is_chg_or_dischg_counter_65536_131
-	INCR	_is_chg_or_dischg_counter_65536_131,F
+	BANKSEL	_is_chg_or_dischg_counter_65536_126
+	INCR	_is_chg_or_dischg_counter_65536_126,F
 ;;swapping arguments (AOP_TYPEs 1/3)
 ;;unsigned compare: left >= lit(0x3=3), size=1
 	MOVIA	0x03
-	SUBAR	_is_chg_or_dischg_counter_65536_131,W
+	SUBAR	_is_chg_or_dischg_counter_65536_126,W
 	BTRSS	STATUS,0
-	MGOTO	_02443_DS_
+	MGOTO	_02433_DS_
 	.line	1179, "main.c"; 	counter = 0;
-	CLRR	_is_chg_or_dischg_counter_65536_131
+	CLRR	_is_chg_or_dischg_counter_65536_126
 	.line	1180, "main.c"; 	bFlag_charger_on = 1; //! 充电
 	BANKSEL	_vFlag_1
 	BSR	_vFlag_1,5
@@ -1715,11 +1733,11 @@ _02441_DS_:
 	MOVIA	0x0a
 	BANKSEL	_forceDispTimer
 	MOVAR	_forceDispTimer
-	MGOTO	_02443_DS_
-_02438_DS_:
+	MGOTO	_02433_DS_
+_02428_DS_:
 	.line	1190, "main.c"; 	counter = 0;
-	BANKSEL	_is_chg_or_dischg_counter_65536_131
-	CLRR	_is_chg_or_dischg_counter_65536_131
+	BANKSEL	_is_chg_or_dischg_counter_65536_126
+	CLRR	_is_chg_or_dischg_counter_65536_126
 	.line	1191, "main.c"; 	bFlag_chg_or_dischg = 0;
 	BANKSEL	_vFlag_1
 	BCR	_vFlag_1,6
@@ -1740,12 +1758,12 @@ _00008_DS_:
 	BANKSEL	r0x1028
 	MOVAR	r0x1028
 	BTRSS	r0x1028,3
-	MGOTO	_02443_DS_
+	MGOTO	_02433_DS_
 	.line	1199, "main.c"; 	displayTimer = CONST_TIMER_DISP_XSEC; //! 电量==0的时候 闪烁5秒后熄灭,反之一直显示
 	MOVIA	0x0a
 	BANKSEL	_displayTimer
 	MOVAR	_displayTimer
-_02443_DS_:
+_02433_DS_:
 	.line	1213, "main.c"; 	}
 	RETURN	
 ; exit point of _is_chg_or_dischg
@@ -1771,54 +1789,54 @@ _02443_DS_:
 .segment "code"; module=main, function=_get_p_ext_int_status
 	.debuginfo subprogram _get_p_ext_int_status
 ;local variable name mapping:
-	.debuginfo complex-type (local-sym "_counter" 1 "main.c" 1053 (basetype 1 unsigned) link "_get_p_ext_int_status_counter_65536_121")
+	.debuginfo complex-type (local-sym "_counter" 1 "main.c" 1053 (basetype 1 unsigned) link "_get_p_ext_int_status_counter_65536_116")
 _get_p_ext_int_status:
 ; 2 exit points
 	.line	1055, "main.c"; 	if (bFlag_p_ext_int_is_high)
 	BANKSEL	_vFlag_1
 	BTRSS	_vFlag_1,3
-	MGOTO	_02415_DS_
+	MGOTO	_02405_DS_
 	.line	1057, "main.c"; 	if (!P_I2C_INT)
 	BTRSC	_PORTAbits,2
-	MGOTO	_02407_DS_
+	MGOTO	_02397_DS_
 	.line	1059, "main.c"; 	if (++counter > CONST_P_VIN_FILTER)
-	BANKSEL	_get_p_ext_int_status_counter_65536_121
-	INCR	_get_p_ext_int_status_counter_65536_121,F
+	BANKSEL	_get_p_ext_int_status_counter_65536_116
+	INCR	_get_p_ext_int_status_counter_65536_116,F
 ;;swapping arguments (AOP_TYPEs 1/3)
 ;;unsigned compare: left >= lit(0x20=32), size=1
 	MOVIA	0x20
-	SUBAR	_get_p_ext_int_status_counter_65536_121,W
+	SUBAR	_get_p_ext_int_status_counter_65536_116,W
 	BTRSS	STATUS,0
-	MGOTO	_02417_DS_
+	MGOTO	_02407_DS_
 	.line	1061, "main.c"; 	counter = 0;
-	CLRR	_get_p_ext_int_status_counter_65536_121
+	CLRR	_get_p_ext_int_status_counter_65536_116
 	.line	1062, "main.c"; 	bFlag_p_ext_int_is_high = 0;
 	BANKSEL	_vFlag_1
 	BCR	_vFlag_1,3
 	.line	1063, "main.c"; 	bFlag_charger_on = 0; //! 放电
 	BCR	_vFlag_1,5
 	.line	1063, "main.c"; 	// io_uart_tx(0x22);
-	MGOTO	_02417_DS_
-_02407_DS_:
+	MGOTO	_02407_DS_
+_02397_DS_:
 	.line	1079, "main.c"; 	counter = 0;
-	BANKSEL	_get_p_ext_int_status_counter_65536_121
-	CLRR	_get_p_ext_int_status_counter_65536_121
-	MGOTO	_02417_DS_
-_02415_DS_:
+	BANKSEL	_get_p_ext_int_status_counter_65536_116
+	CLRR	_get_p_ext_int_status_counter_65536_116
+	MGOTO	_02407_DS_
+_02405_DS_:
 	.line	1084, "main.c"; 	if (P_I2C_INT)
 	BTRSS	_PORTAbits,2
-	MGOTO	_02412_DS_
+	MGOTO	_02402_DS_
 	.line	1086, "main.c"; 	if (++counter > CONST_P_VIN_FILTER)
-	BANKSEL	_get_p_ext_int_status_counter_65536_121
-	INCR	_get_p_ext_int_status_counter_65536_121,F
+	BANKSEL	_get_p_ext_int_status_counter_65536_116
+	INCR	_get_p_ext_int_status_counter_65536_116,F
 ;;swapping arguments (AOP_TYPEs 1/3)
 ;;unsigned compare: left >= lit(0x20=32), size=1
 	MOVIA	0x20
-	SUBAR	_get_p_ext_int_status_counter_65536_121,W
+	SUBAR	_get_p_ext_int_status_counter_65536_116,W
 	BTRSS	STATUS,0
-	MGOTO	_02417_DS_
+	MGOTO	_02407_DS_
 	.line	1088, "main.c"; 	counter = 0;
-	CLRR	_get_p_ext_int_status_counter_65536_121
+	CLRR	_get_p_ext_int_status_counter_65536_116
 	.line	1089, "main.c"; 	bFlag_p_ext_int_is_high = 1;
 	BANKSEL	_vFlag_1
 	BSR	_vFlag_1,3
@@ -1860,12 +1878,12 @@ _02415_DS_:
 	MOVIA	0x14
 	BANKSEL	_delaySleepTimer
 	MOVAR	_delaySleepTimer
-	MGOTO	_02417_DS_
-_02412_DS_:
+	MGOTO	_02407_DS_
+_02402_DS_:
 	.line	1103, "main.c"; 	counter = 0;
-	BANKSEL	_get_p_ext_int_status_counter_65536_121
-	CLRR	_get_p_ext_int_status_counter_65536_121
-_02417_DS_:
+	BANKSEL	_get_p_ext_int_status_counter_65536_116
+	CLRR	_get_p_ext_int_status_counter_65536_116
+_02407_DS_:
 	.line	1106, "main.c"; 	}
 	RETURN	
 ; exit point of _get_p_ext_int_status
@@ -2022,7 +2040,7 @@ _ip55xs_read4Bytes:
 	MOVIA	0x64
 	BANKSEL	r0x1023
 	MOVAR	r0x1023
-_02392_DS_:
+_02382_DS_:
 	.line	1011, "main.c"; 	reg_ip55xs = ip53xs_readByte(0xEA, 0x00);
 	MOVIA	0x00
 	MOVAR	STK00
@@ -2034,11 +2052,11 @@ _02392_DS_:
 	BANKSEL	r0x1023
 	MOVR	r0x1023,W
 	BTRSS	STATUS,2
-	MGOTO	_02390_DS_
+	MGOTO	_02380_DS_
 	.line	1014, "main.c"; 	return FALSE;
 	MOVIA	0x00
-	MGOTO	_02395_DS_
-_02390_DS_:
+	MGOTO	_02385_DS_
+_02380_DS_:
 	.line	1019, "main.c"; 	timer_out--;
 	BANKSEL	r0x1023
 	DECR	r0x1023,F
@@ -2047,7 +2065,7 @@ _02390_DS_:
 	MOVR	r0x1026,W
 	XORIA	0xaa
 	BTRSS	STATUS,2
-	MGOTO	_02392_DS_
+	MGOTO	_02382_DS_
 	.line	1022, "main.c"; 	IP_DATA[0] = ip53xs_readByte(0xEA, 0x0C);
 	MOVIA	0x0c
 	MOVAR	STK00
@@ -2116,7 +2134,7 @@ _02390_DS_:
 	MCALL	_ip53xs_writeByte
 	.line	1030, "main.c"; 	return TRUE;
 	MOVIA	0x01
-_02395_DS_:
+_02385_DS_:
 	.line	1031, "main.c"; 	}
 	RETURN	
 ; exit point of _ip55xs_read4Bytes
@@ -2246,26 +2264,26 @@ _ip55xs_write4Bytes:
 	MOVIA	0x64
 	BANKSEL	r0x1023
 	MOVAR	r0x1023
-_02369_DS_:
+_02359_DS_:
 	.line	941, "main.c"; 	if (timer_out)
 	BANKSEL	r0x1023
 	MOVR	r0x1023,W
 	BTRSC	STATUS,2
-	MGOTO	_02367_DS_
+	MGOTO	_02357_DS_
 	.line	943, "main.c"; 	timer_out--;
 	DECR	r0x1023,F
-	MGOTO	_02370_DS_
-_02367_DS_:
+	MGOTO	_02360_DS_
+_02357_DS_:
 	.line	947, "main.c"; 	return FALSE;
 	MOVIA	0x00
-	MGOTO	_02384_DS_
-_02370_DS_:
+	MGOTO	_02374_DS_
+_02360_DS_:
 	.line	949, "main.c"; 	} while (0xAA != reg_ip55xs);
 	BANKSEL	r0x1024
 	MOVR	r0x1024,W
 	XORIA	0xaa
 	BTRSS	STATUS,2
-	MGOTO	_02369_DS_
+	MGOTO	_02359_DS_
 	.line	950, "main.c"; 	ip53xs_writeByte(0xEA, 0x10, *pdata); // DATA0
 	BANKSEL	r0x1027
 	MOVR	r0x1027,W
@@ -2338,26 +2356,26 @@ _00010_DS_:
 	MOVIA	0x64
 	BANKSEL	r0x1023
 	MOVAR	r0x1023
-_02375_DS_:
+_02365_DS_:
 	.line	962, "main.c"; 	if (timer_out)
 	BANKSEL	r0x1023
 	MOVR	r0x1023,W
 	BTRSC	STATUS,2
-	MGOTO	_02373_DS_
+	MGOTO	_02363_DS_
 	.line	964, "main.c"; 	timer_out--;
 	DECR	r0x1023,F
-	MGOTO	_02376_DS_
-_02373_DS_:
+	MGOTO	_02366_DS_
+_02363_DS_:
 	.line	968, "main.c"; 	return FALSE;
 	MOVIA	0x00
-	MGOTO	_02384_DS_
-_02376_DS_:
+	MGOTO	_02374_DS_
+_02366_DS_:
 	.line	970, "main.c"; 	} while (0x55 != reg_ip55xs);
 	BANKSEL	r0x1024
 	MOVR	r0x1024,W
 	XORIA	0x55
 	BTRSS	STATUS,2
-	MGOTO	_02375_DS_
+	MGOTO	_02365_DS_
 	.line	972, "main.c"; 	pdata++;
 	BANKSEL	r0x1027
 	INCR	r0x1027,F
@@ -2443,29 +2461,29 @@ _00014_DS_:
 	MOVIA	0x64
 	BANKSEL	r0x1023
 	MOVAR	r0x1023
-_02381_DS_:
+_02371_DS_:
 	.line	984, "main.c"; 	if (timer_out)
 	BANKSEL	r0x1023
 	MOVR	r0x1023,W
 	BTRSC	STATUS,2
-	MGOTO	_02379_DS_
+	MGOTO	_02369_DS_
 	.line	986, "main.c"; 	timer_out--;
 	DECR	r0x1023,F
-	MGOTO	_02382_DS_
-_02379_DS_:
+	MGOTO	_02372_DS_
+_02369_DS_:
 	.line	990, "main.c"; 	return FALSE;
 	MOVIA	0x00
-	MGOTO	_02384_DS_
-_02382_DS_:
+	MGOTO	_02374_DS_
+_02372_DS_:
 	.line	992, "main.c"; 	} while (0xFF != reg_ip55xs);
 	BANKSEL	r0x1024
 	MOVR	r0x1024,W
 	XORIA	0xff
 	BTRSS	STATUS,2
-	MGOTO	_02381_DS_
+	MGOTO	_02371_DS_
 	.line	993, "main.c"; 	return TRUE;
 	MOVIA	0x01
-_02384_DS_:
+_02374_DS_:
 	.line	994, "main.c"; 	}
 	RETURN	
 ; exit point of _ip55xs_write4Bytes
@@ -2523,7 +2541,7 @@ _ip53xs_readByte:
 	CLRR	r0x1021
 	.line	895, "main.c"; 	if (P_I2C_INT)
 	BTRSS	_PORTAbits,2
-	MGOTO	_02360_DS_
+	MGOTO	_02350_DS_
 	.line	897, "main.c"; 	i2c_start();
 	MCALL	_i2c_start
 	.line	899, "main.c"; 	if (i2c_writeByte(deviceAddr | IIC_WRITE))
@@ -2534,13 +2552,13 @@ _ip53xs_readByte:
 	MOVAR	r0x1022
 	MOVR	r0x1022,W
 	BTRSC	STATUS,2
-	MGOTO	_02354_DS_
+	MGOTO	_02344_DS_
 	.line	901, "main.c"; 	i2c_stop();
 	MCALL	_i2c_stop
 	.line	902, "main.c"; 	return FALSE;
 	MOVIA	0x00
-	MGOTO	_02361_DS_
-_02354_DS_:
+	MGOTO	_02351_DS_
+_02344_DS_:
 	.line	905, "main.c"; 	if (i2c_writeByte(regAddr))
 	BANKSEL	r0x1020
 	MOVR	r0x1020,W
@@ -2549,13 +2567,13 @@ _02354_DS_:
 	MOVAR	r0x1020
 	MOVR	r0x1020,W
 	BTRSC	STATUS,2
-	MGOTO	_02356_DS_
+	MGOTO	_02346_DS_
 	.line	907, "main.c"; 	i2c_stop();
 	MCALL	_i2c_stop
 	.line	908, "main.c"; 	return FALSE;
 	MOVIA	0x00
-	MGOTO	_02361_DS_
-_02356_DS_:
+	MGOTO	_02351_DS_
+_02346_DS_:
 	.line	911, "main.c"; 	i2c_start();
 	MCALL	_i2c_start
 	.line	913, "main.c"; 	if (i2c_writeByte(deviceAddr | IIC_READ))
@@ -2567,13 +2585,13 @@ _02356_DS_:
 	MOVAR	r0x101F
 	MOVR	r0x101F,W
 	BTRSC	STATUS,2
-	MGOTO	_02358_DS_
+	MGOTO	_02348_DS_
 	.line	915, "main.c"; 	i2c_stop();
 	MCALL	_i2c_stop
 	.line	916, "main.c"; 	return FALSE;
 	MOVIA	0x00
-	MGOTO	_02361_DS_
-_02358_DS_:
+	MGOTO	_02351_DS_
+_02348_DS_:
 	.line	919, "main.c"; 	readByte = i2c_readByte();
 	MCALL	_i2c_readByte
 	BANKSEL	r0x1021
@@ -2582,11 +2600,11 @@ _02358_DS_:
 	MCALL	_i2c_send_nack
 	.line	921, "main.c"; 	i2c_stop();
 	MCALL	_i2c_stop
-_02360_DS_:
+_02350_DS_:
 	.line	924, "main.c"; 	return readByte;
 	BANKSEL	r0x1021
 	MOVR	r0x1021,W
-_02361_DS_:
+_02351_DS_:
 	.line	925, "main.c"; 	}
 	RETURN	
 ; exit point of _ip53xs_readByte
@@ -2638,7 +2656,7 @@ _ip53xs_writeByte:
 	MOVAR	r0x1021
 	.line	864, "main.c"; 	if (P_I2C_INT)
 	BTRSS	_PORTAbits,2
-	MGOTO	_02347_DS_
+	MGOTO	_02337_DS_
 	.line	866, "main.c"; 	i2c_start();
 	MCALL	_i2c_start
 	.line	868, "main.c"; 	if (i2c_writeByte(deviceAddr | IIC_WRITE))
@@ -2649,13 +2667,13 @@ _ip53xs_writeByte:
 	MOVAR	r0x101F
 	MOVR	r0x101F,W
 	BTRSC	STATUS,2
-	MGOTO	_02341_DS_
+	MGOTO	_02331_DS_
 	.line	870, "main.c"; 	i2c_stop();
 	MCALL	_i2c_stop
 	.line	871, "main.c"; 	return FALSE;
 	MOVIA	0x00
-	MGOTO	_02348_DS_
-_02341_DS_:
+	MGOTO	_02338_DS_
+_02331_DS_:
 	.line	874, "main.c"; 	if (i2c_writeByte(regAddr))
 	BANKSEL	r0x1020
 	MOVR	r0x1020,W
@@ -2664,13 +2682,13 @@ _02341_DS_:
 	MOVAR	r0x101F
 	MOVR	r0x101F,W
 	BTRSC	STATUS,2
-	MGOTO	_02343_DS_
+	MGOTO	_02333_DS_
 	.line	876, "main.c"; 	i2c_stop();
 	MCALL	_i2c_stop
 	.line	877, "main.c"; 	return FALSE;
 	MOVIA	0x00
-	MGOTO	_02348_DS_
-_02343_DS_:
+	MGOTO	_02338_DS_
+_02333_DS_:
 	.line	880, "main.c"; 	if (i2c_writeByte(sendByte))
 	BANKSEL	r0x1021
 	MOVR	r0x1021,W
@@ -2679,19 +2697,19 @@ _02343_DS_:
 	MOVAR	r0x101F
 	MOVR	r0x101F,W
 	BTRSC	STATUS,2
-	MGOTO	_02345_DS_
+	MGOTO	_02335_DS_
 	.line	882, "main.c"; 	i2c_stop();
 	MCALL	_i2c_stop
 	.line	883, "main.c"; 	return FALSE;
 	MOVIA	0x00
-	MGOTO	_02348_DS_
-_02345_DS_:
+	MGOTO	_02338_DS_
+_02335_DS_:
 	.line	886, "main.c"; 	i2c_stop();
 	MCALL	_i2c_stop
-_02347_DS_:
+_02337_DS_:
 	.line	889, "main.c"; 	return TRUE;
 	MOVIA	0x01
-_02348_DS_:
+_02338_DS_:
 	.line	890, "main.c"; 	}
 	RETURN	
 ; exit point of _ip53xs_writeByte
@@ -2732,7 +2750,7 @@ _i2c_readByte:
 	.line	841, "main.c"; 	while (i--)
 	MOVIA	0x08
 	MOVAR	r0x101C
-_02333_DS_:
+_02323_DS_:
 	BANKSEL	r0x101C
 	MOVR	r0x101C,W
 	BANKSEL	r0x101D
@@ -2742,7 +2760,7 @@ _02333_DS_:
 	BANKSEL	r0x101D
 	MOVR	r0x101D,W
 	BTRSC	STATUS,2
-	MGOTO	_02335_DS_
+	MGOTO	_02325_DS_
 	.line	844, "main.c"; 	P_I2C_SCL_SET; // 拉高I2C_SCL
 	BSR	_PORTAbits,4
 	.line	845, "main.c"; 	_dly_us(0);
@@ -2761,8 +2779,8 @@ _02333_DS_:
 	.line	854, "main.c"; 	_dly_us(0);
 	MOVIA	0x00
 	MCALL	__dly_us
-	MGOTO	_02333_DS_
-_02335_DS_:
+	MGOTO	_02323_DS_
+_02325_DS_:
 	.line	858, "main.c"; 	P_I2C_SDA_OUTPUT; // 设置I2C_SDA为输出
 	IOSTR	_IOSTA
 	BANKSEL	r0x101C
@@ -2807,7 +2825,7 @@ _i2c_writeByte:
 	MOVIA	0x08
 	BANKSEL	r0x101D
 	MOVAR	r0x101D
-_02324_DS_:
+_02314_DS_:
 	BANKSEL	r0x101D
 	MOVR	r0x101D,W
 	BANKSEL	r0x101E
@@ -2817,7 +2835,7 @@ _02324_DS_:
 	BANKSEL	r0x101E
 	MOVR	r0x101E,W
 	BTRSC	STATUS,2
-	MGOTO	_02326_DS_
+	MGOTO	_02316_DS_
 	.line	814, "main.c"; 	P_I2C_SCL_CLR; // 拉低I2C_SCL,以允许I2C_SDA脚w位数据发生变化
 	BCR	_PORTAbits,4
 	.line	815, "main.c"; 	_dly_us(0);
@@ -2826,14 +2844,14 @@ _02324_DS_:
 	.line	816, "main.c"; 	if (sendByte & 0x80) /* MSB output first */
 	BANKSEL	r0x101C
 	BTRSS	r0x101C,7
-	MGOTO	_02322_DS_
+	MGOTO	_02312_DS_
 	.line	818, "main.c"; 	P_I2C_SDA_SET;
 	BSR	_PORTAbits,3
-	MGOTO	_02323_DS_
-_02322_DS_:
+	MGOTO	_02313_DS_
+_02312_DS_:
 	.line	822, "main.c"; 	P_I2C_SDA_CLR;
 	BCR	_PORTAbits,3
-_02323_DS_:
+_02313_DS_:
 	.line	824, "main.c"; 	sendByte <<= 1;
 	BCR	STATUS,0
 	BANKSEL	r0x101C
@@ -2845,8 +2863,8 @@ _02323_DS_:
 	MCALL	__dly_us
 	.line	827, "main.c"; 	NOP();
 	nop
-	MGOTO	_02324_DS_
-_02326_DS_:
+	MGOTO	_02314_DS_
+_02316_DS_:
 	.line	830, "main.c"; 	return i2c_chk_ack();
 	MCALL	_i2c_chk_ack
 	BANKSEL	r0x101C
@@ -2962,18 +2980,18 @@ _i2c_chk_ack:
 	MOVIA	0xfa
 	BANKSEL	r0x101B
 	MOVAR	r0x101B
-_02305_DS_:
+_02295_DS_:
 	BTRSS	_PORTAbits,3
-	MGOTO	_02307_DS_
+	MGOTO	_02297_DS_
 	.line	773, "main.c"; 	--getAckTime;
 	BANKSEL	r0x101B
 	DECRSZ	r0x101B,F
 	.line	775, "main.c"; 	if (0 == getAckTime)
-	MGOTO	_02305_DS_
+	MGOTO	_02295_DS_
 	.line	777, "main.c"; 	return 1;
 	MOVIA	0x01
-	MGOTO	_02308_DS_
-_02307_DS_:
+	MGOTO	_02298_DS_
+_02297_DS_:
 	.line	781, "main.c"; 	P_I2C_SCL_CLR;
 	BCR	_PORTAbits,4
 	.line	782, "main.c"; 	P_I2C_SDA_OUTPUT;
@@ -2985,7 +3003,7 @@ _02307_DS_:
 	IOST	_IOSTA
 	.line	783, "main.c"; 	return 0;
 	MOVIA	0x00
-_02308_DS_:
+_02298_DS_:
 	.line	784, "main.c"; 	}
 	RETURN	
 ; exit point of _i2c_chk_ack
@@ -3097,7 +3115,7 @@ _gpioKeyScan:
 	BANKSEL	_gpioKeyWaitTimer
 	MOVR	_gpioKeyWaitTimer,W
 	BTRSC	STATUS,2
-	MGOTO	_02214_DS_
+	MGOTO	_02204_DS_
 	.line	614, "main.c"; 	gpioKeyWaitTimer--;
 	MOVR	_gpioKeyWaitTimer,W
 	BANKSEL	r0x101B
@@ -3105,13 +3123,13 @@ _gpioKeyScan:
 	DECR	r0x101B,W
 	BANKSEL	_gpioKeyWaitTimer
 	MOVAR	_gpioKeyWaitTimer
-_02214_DS_:
+_02204_DS_:
 	.line	617, "main.c"; 	indexKey = 0;
 	BANKSEL	_vFlag_1
 	BCR	_vFlag_1,2
 	.line	619, "main.c"; 	if (P_KEY)
 	BTRSS	_PORTBbits,0
-	MGOTO	_02216_DS_
+	MGOTO	_02206_DS_
 	.line	621, "main.c"; 	indexKey = 1;
 	BSR	_vFlag_1,2
 	.line	622, "main.c"; 	P_KEY_IPS_SET;
@@ -3123,34 +3141,34 @@ _02214_DS_:
 	BSR	r0x101B,1
 	MOVR	r0x101B,W
 	IOST	_IOSTB
-_02216_DS_:
+_02206_DS_:
 	.line	626, "main.c"; 	switch (gpioKeyState)
 	BANKSEL	_gpioKeyState
 	MOVR	_gpioKeyState,W
 	BTRSC	STATUS,2
-	MGOTO	_02217_DS_
+	MGOTO	_02207_DS_
 	MOVR	_gpioKeyState,W
 	XORIA	0x01
 	BTRSC	STATUS,2
-	MGOTO	_02220_DS_
+	MGOTO	_02210_DS_
 	MOVR	_gpioKeyState,W
 	XORIA	0x02
 	BTRSC	STATUS,2
-	MGOTO	_02226_DS_
+	MGOTO	_02216_DS_
 	MOVR	_gpioKeyState,W
 	XORIA	0x03
 	BTRSC	STATUS,2
-	MGOTO	_02232_DS_
-	MGOTO	_02235_DS_
-_02217_DS_:
+	MGOTO	_02222_DS_
+	MGOTO	_02225_DS_
+_02207_DS_:
 	.line	629, "main.c"; 	if (indexKey)
 	BANKSEL	_vFlag_1
 	BTRSS	_vFlag_1,2
-	MGOTO	_02219_DS_
+	MGOTO	_02209_DS_
 	.line	632, "main.c"; 	return MSG_NONE;
 	MOVIA	0x00
-	MGOTO	_02237_DS_
-_02219_DS_:
+	MGOTO	_02227_DS_
+_02209_DS_:
 	.line	637, "main.c"; 	gpioKeyWaitTimer = GPIO_KEY_JTTER_TIME; // gSysTick_current;
 	MOVIA	0x03
 	BANKSEL	_gpioKeyWaitTimer
@@ -3159,21 +3177,21 @@ _02219_DS_:
 	MOVIA	0x01
 	BANKSEL	_gpioKeyState
 	MOVAR	_gpioKeyState
-_02220_DS_:
+_02210_DS_:
 	.line	643, "main.c"; 	if (indexKey) // if(PreKeyIndex != indexKey)
 	BANKSEL	_vFlag_1
 	BTRSS	_vFlag_1,2
-	MGOTO	_02224_DS_
+	MGOTO	_02214_DS_
 	.line	647, "main.c"; 	gpioKeyState = GPIO_KEY_STATE_IDLE;
 	BANKSEL	_gpioKeyState
 	CLRR	_gpioKeyState
-	MGOTO	_02236_DS_
-_02224_DS_:
+	MGOTO	_02226_DS_
+_02214_DS_:
 	.line	650, "main.c"; 	else if (!gpioKeyWaitTimer) // if(gSysTick_current - gpioKeyWaitTimer > GPIO_KEY_JTTER_TIME)
 	BANKSEL	_gpioKeyWaitTimer
 	MOVR	_gpioKeyWaitTimer,W
 	BTRSS	STATUS,2
-	MGOTO	_02236_DS_
+	MGOTO	_02226_DS_
 	.line	657, "main.c"; 	gpioKeyWaitTimer = GPIO_KEY_CP_TIME; // gSysTick_current;
 	MOVIA	0x96
 	MOVAR	_gpioKeyWaitTimer
@@ -3191,49 +3209,49 @@ _02224_DS_:
 	MOVR	r0x101B,W
 	IOST	_IOSTB
 	.line	664, "main.c"; 	break;
-	MGOTO	_02236_DS_
-_02226_DS_:
+	MGOTO	_02226_DS_
+_02216_DS_:
 	.line	667, "main.c"; 	if (indexKey)               // if(PreKeyIndex != indexKey)
 	BANKSEL	_vFlag_1
 	BTRSS	_vFlag_1,2
-	MGOTO	_02230_DS_
+	MGOTO	_02220_DS_
 	.line	672, "main.c"; 	gpioKeyState = GPIO_KEY_STATE_IDLE;
 	BANKSEL	_gpioKeyState
 	CLRR	_gpioKeyState
 	.line	674, "main.c"; 	return MSG_MODE; // GpioKeyEvent[PreKeyIndex][1]; //SPR
 	MOVIA	0x21
-	MGOTO	_02237_DS_
-_02230_DS_:
+	MGOTO	_02227_DS_
+_02220_DS_:
 	.line	677, "main.c"; 	else if (!gpioKeyWaitTimer) // if(gSysTick_current - gpioKeyWaitTimer > GPIO_KEY_CP_TIME)
 	BANKSEL	_gpioKeyWaitTimer
 	MOVR	_gpioKeyWaitTimer,W
 	BTRSS	STATUS,2
-	MGOTO	_02236_DS_
+	MGOTO	_02226_DS_
 	.line	685, "main.c"; 	gpioKeyState = GPIO_KEY_STATE_CP;
 	MOVIA	0x03
 	BANKSEL	_gpioKeyState
 	MOVAR	_gpioKeyState
 	.line	700, "main.c"; 	return MSG_POWER_ON; // GpioKeyEvent[PreKeyIndex][2];  //CPS
 	MOVIA	0x41
-	MGOTO	_02237_DS_
-_02232_DS_:
+	MGOTO	_02227_DS_
+_02222_DS_:
 	.line	706, "main.c"; 	if (indexKey) // if(PreKeyIndex != indexKey)
 	BANKSEL	_vFlag_1
 	BTRSS	_vFlag_1,2
-	MGOTO	_02236_DS_
+	MGOTO	_02226_DS_
 	.line	712, "main.c"; 	gpioKeyState = GPIO_KEY_STATE_IDLE;
 	BANKSEL	_gpioKeyState
 	CLRR	_gpioKeyState
 	.line	726, "main.c"; 	break;
-	MGOTO	_02236_DS_
-_02235_DS_:
+	MGOTO	_02226_DS_
+_02225_DS_:
 	.line	729, "main.c"; 	gpioKeyState = GPIO_KEY_STATE_IDLE;
 	BANKSEL	_gpioKeyState
 	CLRR	_gpioKeyState
-_02236_DS_:
+_02226_DS_:
 	.line	733, "main.c"; 	return MSG_NONE;
 	MOVIA	0x00
-_02237_DS_:
+_02227_DS_:
 	.line	734, "main.c"; 	}
 	RETURN	
 ; exit point of _gpioKeyScan
@@ -3241,126 +3259,8 @@ _02237_DS_:
 ;***
 ;  pBlock Stats: dbName = C
 ;***
-;has an exit
-;2 compiler assigned registers:
-;   r0x1031
-;   r0x1032
-;; Starting pCode block
-.segment "code"; module=main, function=_io_uart_tx
-	.debuginfo subprogram _io_uart_tx
-;local variable name mapping:
-	.debuginfo complex-type (local-sym "_sendByte" 1 "main.c" 554 (basetype 1 unsigned) split "r0x1031")
-	.debuginfo complex-type (local-sym "_bCount" 1 "main.c" 557 (basetype 1 unsigned) split "r0x1032")
-_io_uart_tx:
-; 2 exit points
-	.line	554, "main.c"; 	void io_uart_tx(unsigned char sendByte)
-	BANKSEL	r0x1031
-	MOVAR	r0x1031
-	.line	560, "main.c"; 	DISI(); // GIE = 0;
-	DISI
-	.line	561, "main.c"; 	P_IO_UART_TX_OUTPUT;
-	IOSTR	_IOSTB
-	BANKSEL	r0x1032
-	MOVAR	r0x1032
-	BCR	r0x1032,0
-	MOVR	r0x1032,W
-	IOST	_IOSTB
-	.line	562, "main.c"; 	P_IO_UART_TX_CLR; // 输出高
-	BCR	_PORTBbits,0
-	.line	563, "main.c"; 	NOP();
-	nop
-	.line	564, "main.c"; 	NOP();
-	nop
-	.line	565, "main.c"; 	NOP();
-	nop
-	.line	566, "main.c"; 	NOP();
-	nop
-	.line	567, "main.c"; 	NOP();
-	nop
-	.line	568, "main.c"; 	NOP();
-	nop
-	.line	569, "main.c"; 	NOP();
-	nop
-	.line	570, "main.c"; 	NOP();
-	nop
-	.line	571, "main.c"; 	NOP();
-	nop
-	.line	573, "main.c"; 	while (bCount)
-	MOVIA	0x08
-	BANKSEL	r0x1032
-	MOVAR	r0x1032
-_02206_DS_:
-	BANKSEL	r0x1032
-	MOVR	r0x1032,W
-	BTRSC	STATUS,2
-	MGOTO	_02208_DS_
-	.line	575, "main.c"; 	if (sendByte & 0x01)
-	BANKSEL	r0x1031
-	BTRSS	r0x1031,0
-	MGOTO	_02204_DS_
-	.line	577, "main.c"; 	P_IO_UART_TX_SET; // 输出高
-	BSR	_PORTBbits,0
-	.line	578, "main.c"; 	NOP();
-	nop
-	.line	579, "main.c"; 	NOP();
-	nop
-	MGOTO	_02205_DS_
-_02204_DS_:
-	.line	583, "main.c"; 	P_IO_UART_TX_CLR; // 输出低
-	BCR	_PORTBbits,0
-	.line	584, "main.c"; 	NOP();
-	nop
-	.line	585, "main.c"; 	NOP();
-	nop
-	.line	586, "main.c"; 	NOP();
-	nop
-	.line	587, "main.c"; 	NOP();
-	nop
-	.line	588, "main.c"; 	NOP();
-	nop
-_02205_DS_:
-	.line	590, "main.c"; 	bCount--;
-	BANKSEL	r0x1032
-	DECR	r0x1032,F
-	.line	591, "main.c"; 	sendByte >>= 1;
-	BCR	STATUS,0
-	BANKSEL	r0x1031
-	RRR	r0x1031,F
-	MGOTO	_02206_DS_
-_02208_DS_:
-	.line	594, "main.c"; 	NOP();
-	nop
-	.line	595, "main.c"; 	P_IO_UART_TX_SET; // 输出高
-	BSR	_PORTBbits,0
-	.line	596, "main.c"; 	NOP();
-	nop
-	.line	597, "main.c"; 	NOP();
-	nop
-	.line	598, "main.c"; 	NOP();
-	nop
-	.line	599, "main.c"; 	NOP();
-	nop
-	.line	600, "main.c"; 	NOP();
-	nop
-	.line	601, "main.c"; 	NOP();
-	nop
-	.line	602, "main.c"; 	NOP();
-	nop
-	.line	603, "main.c"; 	NOP();
-	nop
-	.line	604, "main.c"; 	NOP();
-	nop
-	.line	605, "main.c"; 	ENI(); // GIE = 1;
-	ENI
-	.line	606, "main.c"; 	}
-	RETURN	
-; exit point of _io_uart_tx
-
-;***
-;  pBlock Stats: dbName = C
-;***
 ;1 compiler assigned register :
-;   r0x1033
+;   r0x1031
 ;; Starting pCode block
 .segment "code"; module=main, function=_io_led_scan
 	.debuginfo subprogram _io_led_scan
@@ -3370,34 +3270,34 @@ _io_led_scan:
 ; 0 exit points
 	.line	311, "main.c"; 	P_LED_SEG1_INPUT;
 	IOSTR	_IOSTB
-	BANKSEL	r0x1033
-	MOVAR	r0x1033
-	BSR	r0x1033,5
-	MOVR	r0x1033,W
+	BANKSEL	r0x1031
+	MOVAR	r0x1031
+	BSR	r0x1031,5
+	MOVR	r0x1031,W
 	IOST	_IOSTB
 	.line	312, "main.c"; 	P_LED_SEG2_INPUT;
 	IOSTR	_IOSTA
-	MOVAR	r0x1033
-	BSR	r0x1033,0
-	MOVR	r0x1033,W
+	MOVAR	r0x1031
+	BSR	r0x1031,0
+	MOVR	r0x1031,W
 	IOST	_IOSTA
 	.line	313, "main.c"; 	P_LED_SEG3_INPUT;
 	IOSTR	_IOSTA
-	MOVAR	r0x1033
-	BSR	r0x1033,1
-	MOVR	r0x1033,W
+	MOVAR	r0x1031
+	BSR	r0x1031,1
+	MOVR	r0x1031,W
 	IOST	_IOSTA
 	.line	314, "main.c"; 	P_LED_SEG4_INPUT;
 	IOSTR	_IOSTA
-	MOVAR	r0x1033
-	BSR	r0x1033,7
-	MOVR	r0x1033,W
+	MOVAR	r0x1031
+	BSR	r0x1031,7
+	MOVR	r0x1031,W
 	IOST	_IOSTA
 	.line	315, "main.c"; 	P_LED_SEG5_INPUT;
 	IOSTR	_IOSTA
-	MOVAR	r0x1033
-	BSR	r0x1033,6
-	MOVR	r0x1033,W
+	MOVAR	r0x1031
+	BSR	r0x1031,6
+	MOVR	r0x1031,W
 	IOST	_IOSTA
 ;;swapping arguments (AOP_TYPEs 1/3)
 ;;unsigned compare: left >= lit(0x12=18), size=1
@@ -3442,18 +3342,18 @@ _02058_DS_:
 	BSR	_PORTAbits,0
 	.line	323, "main.c"; 	P_LED_SEG2_OUTPUT;
 	IOSTR	_IOSTA
-	BANKSEL	r0x1033
-	MOVAR	r0x1033
-	BCR	r0x1033,0
-	MOVR	r0x1033,W
+	BANKSEL	r0x1031
+	MOVAR	r0x1031
+	BCR	r0x1031,0
+	MOVR	r0x1031,W
 	IOST	_IOSTA
 	.line	324, "main.c"; 	P_LED_SEG3_CLR;
 	BCR	_PORTAbits,1
 	.line	325, "main.c"; 	P_LED_SEG3_OUTPUT;
 	IOSTR	_IOSTA
-	MOVAR	r0x1033
-	BCR	r0x1033,1
-	MOVR	r0x1033,W
+	MOVAR	r0x1031
+	BCR	r0x1031,1
+	MOVR	r0x1031,W
 	IOST	_IOSTA
 	.line	327, "main.c"; 	break;
 	MGOTO	_02113_DS_
@@ -3466,18 +3366,18 @@ _02061_DS_:
 	BSR	_PORTAbits,1
 	.line	333, "main.c"; 	P_LED_SEG3_OUTPUT;
 	IOSTR	_IOSTA
-	BANKSEL	r0x1033
-	MOVAR	r0x1033
-	BCR	r0x1033,1
-	MOVR	r0x1033,W
+	BANKSEL	r0x1031
+	MOVAR	r0x1031
+	BCR	r0x1031,1
+	MOVR	r0x1031,W
 	IOST	_IOSTA
 	.line	334, "main.c"; 	P_LED_SEG2_CLR;
 	BCR	_PORTAbits,0
 	.line	335, "main.c"; 	P_LED_SEG2_OUTPUT;
 	IOSTR	_IOSTA
-	MOVAR	r0x1033
-	BCR	r0x1033,0
-	MOVR	r0x1033,W
+	MOVAR	r0x1031
+	BCR	r0x1031,0
+	MOVR	r0x1031,W
 	IOST	_IOSTA
 	.line	337, "main.c"; 	break;
 	MGOTO	_02113_DS_
@@ -3490,18 +3390,18 @@ _02064_DS_:
 	BSR	_PORTAbits,7
 	.line	343, "main.c"; 	P_LED_SEG4_OUTPUT;
 	IOSTR	_IOSTA
-	BANKSEL	r0x1033
-	MOVAR	r0x1033
-	BCR	r0x1033,7
-	MOVR	r0x1033,W
+	BANKSEL	r0x1031
+	MOVAR	r0x1031
+	BCR	r0x1031,7
+	MOVR	r0x1031,W
 	IOST	_IOSTA
 	.line	344, "main.c"; 	P_LED_SEG3_CLR;
 	BCR	_PORTAbits,1
 	.line	345, "main.c"; 	P_LED_SEG3_OUTPUT;
 	IOSTR	_IOSTA
-	MOVAR	r0x1033
-	BCR	r0x1033,1
-	MOVR	r0x1033,W
+	MOVAR	r0x1031
+	BCR	r0x1031,1
+	MOVR	r0x1031,W
 	IOST	_IOSTA
 	.line	347, "main.c"; 	break;
 	MGOTO	_02113_DS_
@@ -3514,18 +3414,18 @@ _02067_DS_:
 	BSR	_PORTAbits,7
 	.line	353, "main.c"; 	P_LED_SEG4_OUTPUT;
 	IOSTR	_IOSTA
-	BANKSEL	r0x1033
-	MOVAR	r0x1033
-	BCR	r0x1033,7
-	MOVR	r0x1033,W
+	BANKSEL	r0x1031
+	MOVAR	r0x1031
+	BCR	r0x1031,7
+	MOVR	r0x1031,W
 	IOST	_IOSTA
 	.line	354, "main.c"; 	P_LED_SEG2_CLR;
 	BCR	_PORTAbits,0
 	.line	355, "main.c"; 	P_LED_SEG2_OUTPUT;
 	IOSTR	_IOSTA
-	MOVAR	r0x1033
-	BCR	r0x1033,0
-	MOVR	r0x1033,W
+	MOVAR	r0x1031
+	BCR	r0x1031,0
+	MOVR	r0x1031,W
 	IOST	_IOSTA
 	.line	357, "main.c"; 	break;
 	MGOTO	_02113_DS_
@@ -3538,18 +3438,18 @@ _02070_DS_:
 	BSR	_PORTAbits,6
 	.line	363, "main.c"; 	P_LED_SEG5_OUTPUT;
 	IOSTR	_IOSTA
-	BANKSEL	r0x1033
-	MOVAR	r0x1033
-	BCR	r0x1033,6
-	MOVR	r0x1033,W
+	BANKSEL	r0x1031
+	MOVAR	r0x1031
+	BCR	r0x1031,6
+	MOVR	r0x1031,W
 	IOST	_IOSTA
 	.line	364, "main.c"; 	P_LED_SEG2_CLR;
 	BCR	_PORTAbits,0
 	.line	365, "main.c"; 	P_LED_SEG2_OUTPUT;
 	IOSTR	_IOSTA
-	MOVAR	r0x1033
-	BCR	r0x1033,0
-	MOVR	r0x1033,W
+	MOVAR	r0x1031
+	BCR	r0x1031,0
+	MOVR	r0x1031,W
 	IOST	_IOSTA
 	.line	367, "main.c"; 	break;
 	MGOTO	_02113_DS_
@@ -3562,18 +3462,18 @@ _02073_DS_:
 	BSR	_PORTAbits,6
 	.line	373, "main.c"; 	P_LED_SEG5_OUTPUT;
 	IOSTR	_IOSTA
-	BANKSEL	r0x1033
-	MOVAR	r0x1033
-	BCR	r0x1033,6
-	MOVR	r0x1033,W
+	BANKSEL	r0x1031
+	MOVAR	r0x1031
+	BCR	r0x1031,6
+	MOVR	r0x1031,W
 	IOST	_IOSTA
 	.line	374, "main.c"; 	P_LED_SEG3_CLR;
 	BCR	_PORTAbits,1
 	.line	375, "main.c"; 	P_LED_SEG3_OUTPUT;
 	IOSTR	_IOSTA
-	MOVAR	r0x1033
-	BCR	r0x1033,1
-	MOVR	r0x1033,W
+	MOVAR	r0x1031
+	BCR	r0x1031,1
+	MOVR	r0x1031,W
 	IOST	_IOSTA
 	.line	377, "main.c"; 	break;
 	MGOTO	_02113_DS_
@@ -3586,18 +3486,18 @@ _02076_DS_:
 	BSR	_PORTAbits,6
 	.line	383, "main.c"; 	P_LED_SEG5_OUTPUT;
 	IOSTR	_IOSTA
-	BANKSEL	r0x1033
-	MOVAR	r0x1033
-	BCR	r0x1033,6
-	MOVR	r0x1033,W
+	BANKSEL	r0x1031
+	MOVAR	r0x1031
+	BCR	r0x1031,6
+	MOVR	r0x1031,W
 	IOST	_IOSTA
 	.line	384, "main.c"; 	P_LED_SEG4_CLR;
 	BCR	_PORTAbits,7
 	.line	385, "main.c"; 	P_LED_SEG4_OUTPUT;
 	IOSTR	_IOSTA
-	MOVAR	r0x1033
-	BCR	r0x1033,7
-	MOVR	r0x1033,W
+	MOVAR	r0x1031
+	BCR	r0x1031,7
+	MOVR	r0x1031,W
 	IOST	_IOSTA
 	.line	387, "main.c"; 	break;
 	MGOTO	_02113_DS_
@@ -3610,18 +3510,18 @@ _02079_DS_:
 	BSR	_PORTBbits,5
 	.line	393, "main.c"; 	P_LED_SEG1_OUTPUT;
 	IOSTR	_IOSTB
-	BANKSEL	r0x1033
-	MOVAR	r0x1033
-	BCR	r0x1033,5
-	MOVR	r0x1033,W
+	BANKSEL	r0x1031
+	MOVAR	r0x1031
+	BCR	r0x1031,5
+	MOVR	r0x1031,W
 	IOST	_IOSTB
 	.line	394, "main.c"; 	P_LED_SEG2_CLR;
 	BCR	_PORTAbits,0
 	.line	395, "main.c"; 	P_LED_SEG2_OUTPUT;
 	IOSTR	_IOSTA
-	MOVAR	r0x1033
-	BCR	r0x1033,0
-	MOVR	r0x1033,W
+	MOVAR	r0x1031
+	BCR	r0x1031,0
+	MOVR	r0x1031,W
 	IOST	_IOSTA
 	.line	397, "main.c"; 	break;
 	MGOTO	_02113_DS_
@@ -3634,18 +3534,18 @@ _02082_DS_:
 	BSR	_PORTAbits,0
 	.line	403, "main.c"; 	P_LED_SEG2_OUTPUT;
 	IOSTR	_IOSTA
-	BANKSEL	r0x1033
-	MOVAR	r0x1033
-	BCR	r0x1033,0
-	MOVR	r0x1033,W
+	BANKSEL	r0x1031
+	MOVAR	r0x1031
+	BCR	r0x1031,0
+	MOVR	r0x1031,W
 	IOST	_IOSTA
 	.line	404, "main.c"; 	P_LED_SEG1_CLR;
 	BCR	_PORTBbits,5
 	.line	405, "main.c"; 	P_LED_SEG1_OUTPUT;
 	IOSTR	_IOSTB
-	MOVAR	r0x1033
-	BCR	r0x1033,5
-	MOVR	r0x1033,W
+	MOVAR	r0x1031
+	BCR	r0x1031,5
+	MOVR	r0x1031,W
 	IOST	_IOSTB
 	.line	407, "main.c"; 	break;
 	MGOTO	_02113_DS_
@@ -3658,18 +3558,18 @@ _02085_DS_:
 	BSR	_PORTBbits,5
 	.line	413, "main.c"; 	P_LED_SEG1_OUTPUT;
 	IOSTR	_IOSTB
-	BANKSEL	r0x1033
-	MOVAR	r0x1033
-	BCR	r0x1033,5
-	MOVR	r0x1033,W
+	BANKSEL	r0x1031
+	MOVAR	r0x1031
+	BCR	r0x1031,5
+	MOVR	r0x1031,W
 	IOST	_IOSTB
 	.line	414, "main.c"; 	P_LED_SEG3_CLR;
 	BCR	_PORTAbits,1
 	.line	415, "main.c"; 	P_LED_SEG3_OUTPUT;
 	IOSTR	_IOSTA
-	MOVAR	r0x1033
-	BCR	r0x1033,1
-	MOVR	r0x1033,W
+	MOVAR	r0x1031
+	BCR	r0x1031,1
+	MOVR	r0x1031,W
 	IOST	_IOSTA
 	.line	417, "main.c"; 	break;
 	MGOTO	_02113_DS_
@@ -3682,18 +3582,18 @@ _02088_DS_:
 	BSR	_PORTAbits,1
 	.line	423, "main.c"; 	P_LED_SEG3_OUTPUT;
 	IOSTR	_IOSTA
-	BANKSEL	r0x1033
-	MOVAR	r0x1033
-	BCR	r0x1033,1
-	MOVR	r0x1033,W
+	BANKSEL	r0x1031
+	MOVAR	r0x1031
+	BCR	r0x1031,1
+	MOVR	r0x1031,W
 	IOST	_IOSTA
 	.line	424, "main.c"; 	P_LED_SEG1_CLR;
 	BCR	_PORTBbits,5
 	.line	425, "main.c"; 	P_LED_SEG1_OUTPUT;
 	IOSTR	_IOSTB
-	MOVAR	r0x1033
-	BCR	r0x1033,5
-	MOVR	r0x1033,W
+	MOVAR	r0x1031
+	BCR	r0x1031,5
+	MOVR	r0x1031,W
 	IOST	_IOSTB
 	.line	427, "main.c"; 	break;
 	MGOTO	_02113_DS_
@@ -3706,18 +3606,18 @@ _02091_DS_:
 	BSR	_PORTBbits,5
 	.line	433, "main.c"; 	P_LED_SEG1_OUTPUT;
 	IOSTR	_IOSTB
-	BANKSEL	r0x1033
-	MOVAR	r0x1033
-	BCR	r0x1033,5
-	MOVR	r0x1033,W
+	BANKSEL	r0x1031
+	MOVAR	r0x1031
+	BCR	r0x1031,5
+	MOVR	r0x1031,W
 	IOST	_IOSTB
 	.line	434, "main.c"; 	P_LED_SEG4_CLR;
 	BCR	_PORTAbits,7
 	.line	435, "main.c"; 	P_LED_SEG4_OUTPUT;
 	IOSTR	_IOSTA
-	MOVAR	r0x1033
-	BCR	r0x1033,7
-	MOVR	r0x1033,W
+	MOVAR	r0x1031
+	BCR	r0x1031,7
+	MOVR	r0x1031,W
 	IOST	_IOSTA
 	.line	437, "main.c"; 	break;
 	MGOTO	_02113_DS_
@@ -3730,18 +3630,18 @@ _02094_DS_:
 	BSR	_PORTAbits,7
 	.line	443, "main.c"; 	P_LED_SEG4_OUTPUT;
 	IOSTR	_IOSTA
-	BANKSEL	r0x1033
-	MOVAR	r0x1033
-	BCR	r0x1033,7
-	MOVR	r0x1033,W
+	BANKSEL	r0x1031
+	MOVAR	r0x1031
+	BCR	r0x1031,7
+	MOVR	r0x1031,W
 	IOST	_IOSTA
 	.line	444, "main.c"; 	P_LED_SEG1_CLR;
 	BCR	_PORTBbits,5
 	.line	445, "main.c"; 	P_LED_SEG1_OUTPUT;
 	IOSTR	_IOSTB
-	MOVAR	r0x1033
-	BCR	r0x1033,5
-	MOVR	r0x1033,W
+	MOVAR	r0x1031
+	BCR	r0x1031,5
+	MOVR	r0x1031,W
 	IOST	_IOSTB
 	.line	447, "main.c"; 	break;
 	MGOTO	_02113_DS_
@@ -3754,18 +3654,18 @@ _02097_DS_:
 	BSR	_PORTAbits,6
 	.line	453, "main.c"; 	P_LED_SEG5_OUTPUT;
 	IOSTR	_IOSTA
-	BANKSEL	r0x1033
-	MOVAR	r0x1033
-	BCR	r0x1033,6
-	MOVR	r0x1033,W
+	BANKSEL	r0x1031
+	MOVAR	r0x1031
+	BCR	r0x1031,6
+	MOVR	r0x1031,W
 	IOST	_IOSTA
 	.line	454, "main.c"; 	P_LED_SEG1_CLR;
 	BCR	_PORTBbits,5
 	.line	455, "main.c"; 	P_LED_SEG1_OUTPUT;
 	IOSTR	_IOSTB
-	MOVAR	r0x1033
-	BCR	r0x1033,5
-	MOVR	r0x1033,W
+	MOVAR	r0x1031
+	BCR	r0x1031,5
+	MOVR	r0x1031,W
 	IOST	_IOSTB
 	.line	457, "main.c"; 	break;
 	MGOTO	_02113_DS_
@@ -3778,18 +3678,18 @@ _02100_DS_:
 	BSR	_PORTAbits,1
 	.line	463, "main.c"; 	P_LED_SEG3_OUTPUT;
 	IOSTR	_IOSTA
-	BANKSEL	r0x1033
-	MOVAR	r0x1033
-	BCR	r0x1033,1
-	MOVR	r0x1033,W
+	BANKSEL	r0x1031
+	MOVAR	r0x1031
+	BCR	r0x1031,1
+	MOVR	r0x1031,W
 	IOST	_IOSTA
 	.line	464, "main.c"; 	P_LED_SEG4_CLR;
 	BCR	_PORTAbits,7
 	.line	465, "main.c"; 	P_LED_SEG4_OUTPUT;
 	IOSTR	_IOSTA
-	MOVAR	r0x1033
-	BCR	r0x1033,7
-	MOVR	r0x1033,W
+	MOVAR	r0x1031
+	BCR	r0x1031,7
+	MOVR	r0x1031,W
 	IOST	_IOSTA
 	.line	467, "main.c"; 	break;
 	MGOTO	_02113_DS_
@@ -3802,18 +3702,18 @@ _02103_DS_:
 	BSR	_PORTAbits,0
 	.line	473, "main.c"; 	P_LED_SEG2_OUTPUT;
 	IOSTR	_IOSTA
-	BANKSEL	r0x1033
-	MOVAR	r0x1033
-	BCR	r0x1033,0
-	MOVR	r0x1033,W
+	BANKSEL	r0x1031
+	MOVAR	r0x1031
+	BCR	r0x1031,0
+	MOVR	r0x1031,W
 	IOST	_IOSTA
 	.line	474, "main.c"; 	P_LED_SEG4_CLR;
 	BCR	_PORTAbits,7
 	.line	475, "main.c"; 	P_LED_SEG4_OUTPUT;
 	IOSTR	_IOSTA
-	MOVAR	r0x1033
-	BCR	r0x1033,7
-	MOVR	r0x1033,W
+	MOVAR	r0x1031
+	BCR	r0x1031,7
+	MOVR	r0x1031,W
 	IOST	_IOSTA
 	.line	478, "main.c"; 	break;
 	MGOTO	_02113_DS_
@@ -3826,18 +3726,18 @@ _02106_DS_:
 	BSR	_PORTAbits,1
 	.line	496, "main.c"; 	P_LED_SEG3_OUTPUT;
 	IOSTR	_IOSTA
-	BANKSEL	r0x1033
-	MOVAR	r0x1033
-	BCR	r0x1033,1
-	MOVR	r0x1033,W
+	BANKSEL	r0x1031
+	MOVAR	r0x1031
+	BCR	r0x1031,1
+	MOVR	r0x1031,W
 	IOST	_IOSTA
 	.line	497, "main.c"; 	P_LED_SEG5_CLR;
 	BCR	_PORTAbits,6
 	.line	498, "main.c"; 	P_LED_SEG5_OUTPUT;
 	IOSTR	_IOSTA
-	MOVAR	r0x1033
-	BCR	r0x1033,6
-	MOVR	r0x1033,W
+	MOVAR	r0x1031
+	BCR	r0x1031,6
+	MOVR	r0x1031,W
 	IOST	_IOSTA
 	.line	500, "main.c"; 	break;
 	MGOTO	_02113_DS_
@@ -3850,18 +3750,18 @@ _02109_DS_:
 	BSR	_PORTAbits,0
 	.line	506, "main.c"; 	P_LED_SEG2_OUTPUT;
 	IOSTR	_IOSTA
-	BANKSEL	r0x1033
-	MOVAR	r0x1033
-	BCR	r0x1033,0
-	MOVR	r0x1033,W
+	BANKSEL	r0x1031
+	MOVAR	r0x1031
+	BCR	r0x1031,0
+	MOVR	r0x1031,W
 	IOST	_IOSTA
 	.line	507, "main.c"; 	P_LED_SEG5_CLR;
 	BCR	_PORTAbits,6
 	.line	508, "main.c"; 	P_LED_SEG5_OUTPUT;
 	IOSTR	_IOSTA
-	MOVAR	r0x1033
-	BCR	r0x1033,6
-	MOVR	r0x1033,W
+	MOVAR	r0x1031
+	BCR	r0x1031,6
+	MOVR	r0x1031,W
 	IOST	_IOSTA
 _02113_DS_:
 	.line	515, "main.c"; 	indexScan++; //! 1ms 调用一次
@@ -3954,6 +3854,6 @@ _enable_breathing_mode:
 
 
 ;	code size estimation:
-;	 1612+  398 =  2010 instructions ( 4816 byte)
+;	 1603+  391 =  1994 instructions ( 4770 byte)
 
 	end

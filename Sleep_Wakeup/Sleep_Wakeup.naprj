@@ -139,6 +139,7 @@
     <Array name="ExternalResource" />
     <Array name="files">
       <Element value="main.c|True" />
+      <Element value="C:/Nyquest/NYC_NY8/include/ny8common.h|True" />
     </Array>
     <Array name="InstrumentFiles" />
     <Array name="MelodyDatabaseFiles" />

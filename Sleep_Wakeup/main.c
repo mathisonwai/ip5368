@@ -17,6 +17,7 @@
 // 3.充满后数码管100长亮。
 // 4.放电中，当前电量数字长亮，5%电量后闪烁
 // ui end
+// 12/13 add skipGetCapTimer
 #include <ny8.h>
 #include "NY8_constant.h"
 #include "app_cfg.h"
@@ -63,7 +64,7 @@ volatile unsigned char delaySleepTimer;
 volatile unsigned char displayData;
 volatile unsigned char bat_level_buf;
 volatile unsigned char timer_slice_16ms;
-// volatile unsigned char delaySleepTimer;
+volatile unsigned char skipGetCapTimer;
 volatile unsigned char gpioKeyWaitTimer;
 GPIO_KEY_STATE gpioKeyState;
 
@@ -658,6 +659,7 @@ KEY_EVENT gpioKeyScan(void)
             gpioKeyState = GPIO_KEY_STATE_PRESS_DOWN;
             P_KEY_IPS_CLR;
             P_KEY_IPS_OUTPUT;
+            skipGetCapTimer = 10;
             // return MSG_NONE;//GpioKeyEvent[PreKeyIndex][0];//PDS(鎸夐敭寮濮?
         }
 
@@ -1517,7 +1519,7 @@ void main(void)
                 timer_slice_16ms++;
                 gpioKeyScan();
                 get_p_ext_int_status();
-                if (bFlag_p_ext_int_is_high)
+                if ((bFlag_p_ext_int_is_high) && (P_I2C_INT)) // if (bFlag_p_ext_int_is_high)
                 {
                     is_chg_or_dischg();
                 }
@@ -1529,9 +1531,16 @@ void main(void)
                     // io_uart_tx(0x55);
                     // io_uart_tx(0x55);
                     // P_LED_G ^= 1; //!实测 520ms
-                    if (bFlag_p_ext_int_is_high)
+                    if ((bFlag_p_ext_int_is_high) && (P_I2C_INT))
                     {
-                        get_cap();
+                        if (0 == skipGetCapTimer)
+                        {
+                            get_cap();
+                        }
+                        else
+                        {
+                            skipGetCapTimer--;
+                        }
                     }
                     app_display_all();
                 }
@@ -1551,12 +1560,12 @@ void main(void)
                             // io_uart_tx(0x33);
                             // io_uart_tx(0x22);
                             // io_uart_tx(0x11);
-                            
+
                             CLRWDT();
                             INTE = 0x00;  // Timer0 overflow interrupt enable bit
                             PCON = 0x58;  // PCON = 0xC8;
                             PCON1 = 0x00; // Disable Timer0
-                              INTF = 0;
+                            INTF = 0;
                             DISI();
                             // BPHCON = (unsigned char)~C_PB1_PHB;     // Enable PB1 Pull-High resistor
                             // BWUCON = C_PB1_Wakeup;                    // Enable PB1 input change wakeup function
@@ -1625,6 +1634,7 @@ void main(void)
                             // OSCCR = C_Standby_Mode | C_FHOSC_Sel;
                             //-------------------------------休眠-----------------------------------//
                             delaySleepTimer = CONST_DELAY_SLEEP_TIME;
+                            skipGetCapTimer = 3;
                             // if(!P_KEY_POWER)
                             //{
                             // dispTimer = LED_DISP_TIME;
